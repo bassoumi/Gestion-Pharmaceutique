@@ -1,0 +1,62 @@
+<br><br><br><br><br>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card p-4 rounded bg-white shadow-lg">
+        <h2 class="text-center mb-0">Modifier Fournisseur</h2>
+        <hr>
+        <form class="form-card" [formGroup]="form">
+          
+          <div class="row mb-3">
+            <div class="col-sm-6">
+              <label for="CDE_FOUR" class="form-label">CDE_FOUR <span class="text-danger">*</span></label>
+              <input type="text" id="CDE_FOUR" name="CDE_FOUR" formControlName="CDE_FOUR" class="form-control" placeholder="Référence du fournisseur" readonly>
+            </div>
+            <div class="col-sm-6">
+              <label for="NOM_FOUR" class="form-label">NOM_FOUR <span class="text-danger">*</span></label>
+              <input type="text" id="NOM_FOUR" name="NOM_FOUR" formControlName="NOM_FOUR" class="form-control" placeholder="Nom du fournisseur">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-6">
+              <label for="ADR_FOUR" class="form-label">ADR_FOUR <span class="text-danger">*</span></label>
+              <input type="text" id="ADR_FOUR" name="ADR_FOUR" formControlName="ADR_FOUR" class="form-control" placeholder="Adresse du fournisseur">
+            </div>
+            <div class="col-sm-6">
+              <label for="TEL_BUR" class="form-label">TEL_BUR <span class="text-danger">*</span></label>
+              <input type="text" id="TEL_BUR" name="TEL_BUR" formControlName="TEL_BUR" class="form-control" placeholder="Téléphone bureau">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-6">
+              <label for="TEL_PORT" class="form-label">TEL_PORT <span class="text-danger">*</span></label>
+              <input type="text" id="TEL_PORT" name="TEL_PORT" formControlName="TEL_PORT" class="form-control" placeholder="Téléphone portable">
+            </div>
+            <div class="col-sm-6">
+              <label for="FAX_FOUR" class="form-label">FAX_FOUR <span class="text-danger">*</span></label>
+              <input type="text" id="FAX_FOUR" name="FAX_FOUR" formControlName="FAX_FOUR" class="form-control" placeholder="Fax">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-6">
+              <label for="MAIL_FOUR" class="form-label">MAIL_FOUR <span class="text-danger">*</span></label>
+              <input type="email" id="MAIL_FOUR" name="MAIL_FOUR" formControlName="MAIL_FOUR" class="form-control" placeholder="Email">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-sm-12 d-flex justify-content-end">
+              <button type="button" class="btn btn-primary mr-2" (click)="submit()">Mettre à jour</button>
+              <button type="button" class="btn btn-secondary" (click)="Annuler()">Annuler</button>
+            </div>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+.print-container {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+.thead-dark th {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.font-weight-bold {
+  font-weight: 700;
+}
+
+.font-italic {
+  font-style: italic;
+}
+
+
+@media print {
+  .print-button {
+      display: none;
+  }
+
+  .print-container {
+      box-shadow: none;
+      border: none;
+      padding: 0;
+  }
+}
+.text-right-custom {
+  text-align: right;
+}

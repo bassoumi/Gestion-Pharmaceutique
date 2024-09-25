@@ -1,0 +1,54 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <main class="flex min-h-screen w-full items-center justify-center bg-cover bg-center relative" style="background-image: url('../../assets/img/medical-02.jpg');">
+    <div class="absolute inset-0 bg-black overlay-dark"></div>
+    <section class="relative z-10 w-[25rem] max-w-full bg-white/30 backdrop-blur-md p-6 shadow-md">
+      <div class="text-center text-2xl font-semibold mb-6 mt-3">Connection</div>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+        {{ errorMessage }}
+      </div>
+      <div class="grid gap-4">
+        <div class="flex flex-col">
+          <label for="username" class="text-sm font-medium mb-1">Nom Utilisateur</label>
+          <input
+            id="username"
+            formControlName="username"
+            type="text"
+            name="username"
+            placeholder="Nom Utilisateur"
+            class="w-full border-gray-300 bg-gray-50 text-gray-900 py-2 px-4 focus:border-indigo-500 focus:outline-none"
+          />
+          <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="text-danger small">
+            Nom d'utilisateur est requis.
+          </div>
+        </div>
+
+        <div class="flex flex-col">
+          <label for="password" class="text-sm font-medium mb-1">Mot De Passe</label>
+          <input
+            id="password"
+            formControlName="password"
+            type="password"
+            placeholder="Mot De Passe"
+            class="w-full border-gray-300 bg-gray-50 text-gray-900 py-2 px-4 focus:border-indigo-500 focus:outline-none"
+          />
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger small">
+            Mot de passe est requis.
+          </div>
+        </div>
+
+        <button
+          class="w-full bg-indigo-600 py-2 text-white font-bold rounded-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300  mb-3"
+          type="submit"
+        >
+          LOG IN
+        </button>
+      </div>
+    </section>
+  </main>
+</form>
+
+<style>
+  .overlay-dark {
+    opacity: 0.1; /* Ajustez cette valeur pour rendre le filtre plus ou moins sombre */
+  }
+</style>

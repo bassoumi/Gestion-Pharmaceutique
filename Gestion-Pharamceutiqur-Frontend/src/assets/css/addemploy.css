@@ -1,0 +1,7 @@
+form {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+}
+body{ padding-top: 0;background-color: #f2f6fc; color: #000;overflow-x: hidden;height: 100%;;background-repeat: no-repeat;background-size: 100% 100%}.card{border-radius: 15px; padding: 10px 10px;margin-top: 0;margin-bottom: 60px;border: none !important;box-shadow: 0 6px 12px 0 rgba(0,0,0,0.5)}.blue-text{color: #00BCD4}.form-control-label{margin-bottom: 0}input, textarea, button{padding: 8px 15px;border-radius: 5px !important;margin: 5px 0px;box-sizing: border-box;border: 1px solid #ccc;font-size: 18px !important;font-weight: 300}input:focus, textarea:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;border: 1px solid #00BCD4;outline-width: 0;font-weight: 400}.btn-block{text-transform: uppercase;font-size: 15px !important;font-weight: 400;height: 43px;cursor: pointer}.btn-block:hover{color: #fff !important}button:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;outline-width: 0}

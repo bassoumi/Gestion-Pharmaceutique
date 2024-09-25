@@ -1,0 +1,90 @@
+.status-label {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 8px;
+    text-align: center;
+    display: inline-block;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  
+  .status-ok {
+    background-color: green;
+    color: white;
+  }
+  
+  .status-non {
+    background-color: red;
+    color: white;
+  }
+  
+  .status-default {
+    background-color: transparent;
+    color: inherit;
+  }
+  .text-danger {
+    color: #dc3545; /* Rouge pour le message de danger */
+  }
+  .table-cell-border {
+    border-right: 1px solid #1b4c7e; /* Couleur de la bordure, ajustez si nécessaire */
+  }
+  
+  .table-cell-border:last-child {
+    border-right: none; /* Supprime la bordure pour la dernière cellule */
+  }.table th {
+    background-color:  rgb(73, 101, 116);; /* Couleur bleue pharmacie */
+    color: #ffffff; /* Texte blanc */
+    font-weight: bold;
+  }
+
+  h2{
+    color: rgb(73, 101, 116); /* Couleur bleue pharmacie */
+margin-left: 450px;
+font-weight: bold;
+font-size: 30px;
+  }
+  .animated-title {
+    color: rgb(73, 101, 116); /* Couleur bleue pharmacie */
+    margin-left: 450px;
+    font-weight: bold;
+    font-size: 30px;
+    opacity: 0;
+    transform: translateX(-100px); /* Déplacer vers la gauche avant l'animation */
+    animation: slideIn 1s ease-out forwards; /* Appliquer l'animation */
+  }
+
+  @keyframes slideIn {
+    to {
+      opacity: 1;
+      transform: translateX(0); /* Ramener à la position originale */
+    }
+  }
+  .custom-button {
+    color: rgb(73, 101, 116);
+    border-color: rgb(73, 101, 116);
+  }
+
+  .custom-button:hover {
+    background-color: rgb(73, 101, 116);
+    color: white;
+  }
+
+  .animated-row {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3rem;
+  }
+  

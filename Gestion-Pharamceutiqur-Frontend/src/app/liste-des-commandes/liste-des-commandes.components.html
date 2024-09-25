@@ -1,0 +1,152 @@
+<div style="background-color: #f0f0f0; ">
+<br><br><br><br><br><br>
+<div class="container mt-2">
+  <div class="flex justify-end items-center ">
+    <form class="d-flex" (submit)="onSearch($event)" role="search">
+      <div class="relative">
+        <input id="searchInput" name="NUM_COM" [(ngModel)]="searchQuerynumber"
+          class="border-2 border-gray-300 bg-white h-10 pl-10 pr-5 rounded-lg text-sm focus:outline-none"
+          type="search" placeholder="entrer NUM_COM">
+        <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<ng-container *ngIf="searchQuerynumber && searchResults.length > 0">
+  <div class="container mt-2">
+      <h2  class="text-center " style="display: inline-block; margin-left: 25px;">Resultas De Recherche </h2>
+      <br>
+   
+        <table class="table table-striped table-bordered"style="margin-right: 50px;">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center table-cell-border ">N°COMMANDE</th>
+          <th scope="col" class="text-center table-cell-border ">C°FOURNISSEUR</th>
+          <th scope="col" class="text-center table-cell-border ">D°COMMANDE</th>
+          <th scope="col" class="text-center table-cell-border ">DETAILS</th>
+          <th scope="col" class="text-center table-cell-border ">TOTALE</th>
+          <th scope="col" class="text-center table-cell-border ">ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let commande of searchResults">
+          <td class="text-center">{{ commande.NUM_COM }}</td>
+          <td class="text-center">{{ commande.CDE_FOUR }}</td>
+          <td class="text-center">{{ commande.DATE_COM | date: 'yyyy-MM-dd' }}</td>
+          <td>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">CDE_PROD</th>
+                  <th scope="col" class="text-center">Quantité</th>
+                  <th scope="col" class="text-center"> Reste A Distribuée</th>
+
+                  <th scope="col" class="text-center">Prix </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ligne of commande.lignes">
+                  <td class="text-center">{{ ligne.CDE_PROD }}</td>
+                     <!-- Quantité Totale -->
+                     <td class="text-center" >
+                      {{ ligne.QTE_COM_TOTALE }}
+                    </td>
+                    
+                    <td class="text-center">
+                      <ng-container *ngIf="isQuantiteZero(ligne.QTE_COM); else showQuantite">
+                        <div class="text-success">
+                          <strong>Commande distribuée</strong>
+                        </div>
+                      </ng-container>
+                      <ng-template #showQuantite>
+                        {{ ligne.QTE_COM }}
+                      </ng-template>
+                    </td>
+                  <td class="text-center">{{ ligne.TOT_COM }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td class="text-center">{{ commande.totalPrix | number:'1.2-2' }}</td>
+          <td>
+            <div class="btn-group" role="group">
+              <button class="btn btn-outline-success" (click)="print(commande)">Imprimer</button>
+
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-outline-primary mt-3" (click)="resetSearch()">voir liste des Facteurs</button>
+
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!searchQuerynumber">
+  <div class="container mt-2" style="margin-left: 90px;">
+    <div style="width: 95%; margin: 0 auto; text-align: left; ">
+      <h2 style="display: inline-block;">Liste Des Commandes : </h2>
+      <br>
+      <p style="font-size: 20px;"> <b>Total des Commandes :</b> {{ commandes.length }}</p>
+
+    </div>
+    <table class="table table-striped table-bordered table-with-margin" style="margin-right: 50px;">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center table-cell-border commande-header">N°COMMANDE</th>
+          <th scope="col" class="text-center table-cell-border commande-header">C°FOURNISSEUR</th>
+          <th scope="col" class="text-center table-cell-border commande-header">D°COMMANDE</th>
+          <th scope="col" class="text-center table-cell-border commande-header">DETAILS</th>
+          <th scope="col" class="text-center table-cell-border commande-header">TOTALE</th>
+          <th scope="col" class="text-center table-cell-border commande-header">ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let commande of commandes" class="animated-row">
+          <td class="text-center">{{ commande.NUM_COM }}</td>
+          <td class="text-center">{{ commande.CDE_FOUR }}</td>
+          <td class="text-center">{{ commande.DATE_COM | date: 'yyyy-MM-dd' }}</td>
+          <td>
+            <table class="table table-bordered table-with-margin">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center details-header">CDE_PROD</th>
+                  <th scope="col" class="text-center details-header">Quantité Totale</th>
+                  <th scope="col" class="text-center details-header">Reste A Distribuée</th>
+                  <th scope="col" class="text-center details-header">Prix</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ligne of commande.lignes" class="animated-row">
+                  <td class="text-center">{{ ligne.CDE_PROD }}</td>
+                  <td class="text-center">{{ ligne.QTE_COM_TOTALE }}</td>
+                  <td class="text-center">
+                    <ng-container *ngIf="isQuantiteZero(ligne.QTE_COM); else showQuantite">
+                      <div class="text-success">
+                        <strong>Commande distribuée</strong>
+                      </div>
+                    </ng-container>
+                    <ng-template #showQuantite>
+                      {{ ligne.QTE_COM }}
+                    </ng-template>
+                  </td>
+                  <td class="text-center">{{ ligne.TOT_COM }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td class="text-center">{{ commande.totalPrix | number:'1.2-2' }}</td>
+          <td>
+            <div class="btn-group" role="group">
+              <button class="btn btn-outline-success" (click)="print(commande)">Imprimer</button>
+              <button (click)="deleteCommande(commande.NUM_COM)" class="btn btn-danger">Supprimer</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+</div>

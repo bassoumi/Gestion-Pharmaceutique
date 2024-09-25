@@ -1,0 +1,55 @@
+<br><br><br>
+<div style="background-color: #f0f0f0;">
+
+  <div class="chart-container mt-1">
+    <br>
+    <div class="chart-left">
+      <br>
+      <h2>Statistiques des Stocks d'Articles</h2>
+      <ngx-charts-pie-chart
+        [results]="articlesChartData"
+        [view]="[550, 300]"
+        [scheme]="colorSchemeArticles"
+        [legend]="true"
+        [explodeSlices]="false"
+        [labels]="true"
+        [doughnut]="false">
+      </ngx-charts-pie-chart>
+    </div>
+    
+    <div class="separator"></div>
+    
+    <div class="chart-right">
+      <h2>Statistiques de Distribution</h2>
+      <ngx-charts-pie-chart
+        [results]="lignesDistributionChartData"
+        [view]="[550, 300]"
+        [scheme]="colorSchemeDistribution"
+        [legend]="true"
+        [explodeSlices]="false"
+        [labels]="true"
+        [doughnut]="false">
+      </ngx-charts-pie-chart>
+    </div>
+  </div>
+  
+  <div class="horizontal-separator"></div>
+
+
+
+  <div style="margin: 0 100px;">
+    <h2>Progression des Patients par jour</h2>
+    <ngx-charts-line-chart
+
+      [results]="patientProgressionChartData"
+      [view]="[1200, 300]"
+      [scheme]="colorSchemePatients"
+      [legend]="true"
+      [xAxis]="true"
+      [yAxis]="true"
+      [animations]="true"
+      [xAxisLabel]="'Date de Création'"
+      [yAxisLabel]="'Nombre de Patients'">
+    </ngx-charts-line-chart>
+  </div>
+  

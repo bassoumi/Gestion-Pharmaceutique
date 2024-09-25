@@ -1,0 +1,120 @@
+.l-navbar {
+  position: fixed;
+  top: 68px;
+  left: 0;
+  width: 300px;
+  height: calc(100% - 75px); /* Ajuste la hauteur en tenant compte du header */
+  background-color: #6c757d;
+  padding-top: 30px;
+  z-index: 1000;
+  transition: width 0.3s;
+  overflow-y: auto; /* Barre de défilement verticale */
+  overflow-x: hidden;/* Ajoute une barre de défilement verticale si nécessaire */
+}
+
+.l-navbar.closed {
+  width: 80px;
+}
+
+.nav_link {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  color: #fff;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+.nav_link:hover {
+  background-color: #1c2535;
+}
+
+/* Hide text when sidebar is closed */
+.l-navbar.closed .nav_name {
+  display: none;
+}
+
+/* Ensure icons are displayed and centered properly */
+.nav_link .nav_icon {
+  font-size: 24px; /* Explicitly set icon size */
+  display: inline-block;
+  margin: 0 auto; /* Ensure the icons are centered */
+}
+
+.l-navbar.closed .nav_link {
+  margin-bottom: 10px;
+}
+
+/* Adjust content margin for open/closed sidebar */
+.main-content {
+  margin-left: 300px; /* Adjust to match sidebar width */
+  padding: 20px;
+  transition: margin-left 0.3s;
+}
+
+.main-content.closed {
+  margin-left: 80px; /* Adjust to match closed sidebar width */
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: #aab8c2;
+  padding: 10px 20px;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#header-toggle {
+  cursor: pointer;
+}
+
+.icon-menu {
+  font-size: 30px; /* Ajuste la taille de l'icône */
+  color: white; /* Définit la couleur de l'icône */
+}
+
+.time-display {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  display: flex;
+  gap: 2px; /* Espace entre les caractères */
+}
+.time-char {
+  border: 1px solid black; /* Bordure noire */
+  padding: 5px; /* Espacement autour du caractère */
+  border-radius: 3px; /* Coins légèrement arrondis, optionnel */
+}
+.container_nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px; /* Optionnel : espace entre le symbole et l'heure */
+}
+.active-link {
+  background-color: #343a40; /* Couleur de fond pour le lien actif */
+  color: #ffc107; /* Couleur du texte pour le lien actif */
+}
+
+.active-link .nav_icon,
+.active-link i {
+  color: #ffc107; /* Change la couleur de l'icône pour le lien actif */
+}
+
+/* Show the name when hovering over the item */
+.nav_link:hover .nav_name {
+  opacity: 1;
+}
+
+/* Optional: You can add a delay or different transition effect */
+.nav_link .nav_name {
+  transition: opacity 0.3s ease-in-out;
+}

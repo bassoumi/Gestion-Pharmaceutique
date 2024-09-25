@@ -1,0 +1,262 @@
+<div style="background-color: #f0f0f0; ">
+  <br><br>
+<br>
+<div class="chevron" (click)="toggleSidebar()" [ngClass]="{'open': isSidebarOpen}">
+  <span *ngIf="!isSidebarOpen">&#9664;</span> <!-- Chevron pointing left when sidebar is closed -->
+  <span *ngIf="isSidebarOpen">&#9654;</span>  <!-- Chevron pointing right when sidebar is open -->
+</div>
+
+<!-- Sidebar -->
+<div id="articleSidebar" [ngClass]="{'open': isSidebarOpen}" class="sidebar bg-light shadow-lg">
+  <h2 class="text-center mt-3">Liste des Médicaments</h2>
+  <form class="d-flex mb-3 p-3" (submit)="onSearch($event)" role="search">
+    <div class="input-group">
+      <input id="searchInput" name="searchQuery" [(ngModel)]="searchQuery" class="form-control" type="search" placeholder="Rechercher un médicament" style="flex: 2;">
+      <select [(ngModel)]="searchType" name="searchType" class="form-select" style="flex: 1; max-width: 150px;">
+        <option value="CDE_PROD">CDE_PROD</option>
+        <option value="LIB_PROD">LIB_PROD</option>
+      </select>
+    </div>
+    
+    
+  </form>
+
+  <!-- Search results or full article list -->
+  <ng-container *ngIf="searchQuery && searchResults.length > 0">
+    <table class="table table-hover">
+      <thead>
+        <tr class="text-center">
+          <th scope="col">CDE_PROD</th>
+          <th scope="col">LIB_PROD</th>
+          <th scope="col">STOCK_PROD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let article of searchResults" class="text-center">
+          <td>{{ article.CDE_PROD }}</td>
+          <td>{{ truncateText(article.LIB_PROD) }}</td>
+          <td>{{ article.STOCK_PROD }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <ng-container *ngIf="!searchQuery">
+    <!-- Articles en rupture de stock -->
+    <div *ngIf="articlesInStockOut.length > 0" class="p-3">
+      <h3 class="text-center">Articles en Rupture de Stock</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr class="text-center">
+            <th scope="col">CDE_PROD</th>
+            <th scope="col">LIB_PROD</th>
+            <th scope="col">STOCK</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let article of articlesInStockOut" class="text-center text-danger">
+            <td>{{ article.CDE_PROD }}</td>
+            <td>{{ truncateText(article.LIB_PROD) }}</td>
+            <td [ngClass]="{'text-danger': article.STOCK_PROD === 0}">
+              {{ article.STOCK_PROD }}
+            </td>
+                      </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Autres articles -->
+    <div *ngIf="articlesInStock.length > 0" class="p-3">
+      <h3 class="text-center">Tous les Articles</h3>
+      <table class="table table-hover">
+        <thead>
+            <tr class="text-center">
+              <th scope="col">CDE_PROD</th>
+              <th scope="col">LIB_PROD</th>
+              <th scope="col">STOCK</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let article of articlesInStock" class="text-center">
+            <td>{{ article.CDE_PROD }}</td>
+            <td>{{ article.LIB_PROD }}</td>
+            <td [ngClass]="{'text-danger': article.STOCK_PROD === 0}">
+              {{ article.STOCK_PROD }}
+            </td>
+                      </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Main Container -->
+<div class="container mt-5">
+  <h1 class="text-center">Formulaire de Demande de Médicaments</h1>
+  <div *ngIf="errorMessage" class="alert alert-danger text-center">
+    {{ errorMessage }}
+  </div>
+  <form [formGroup]="DemandeForm" (ngSubmit)="onSubmit()">
+    <div class="row bg-white shadow-sm p-4 rounded">
+      <div class="form-group col-md-2">
+        <label for="N_DEMANDE">N_DEMANDE</label>
+        <input [value]="dernierNumDemande" type="text" id="N_DEMANDE" formControlName="N_DEMANDE" class="form-control" readonly>
+        <div *ngIf="DemandeForm.get('N_DEMANDE')?.invalid && DemandeForm.get('N_DEMANDE')?.touched" class="text-danger">
+          L'N_DEMANDE est requis.
+        </div>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="DAT_DEM">Date de demande</label>
+        <input type="date" id="DAT_DEM" formControlName="DAT_DEM" class="form-control" readonly>
+        <div *ngIf="DemandeForm.get('DAT_DEM')?.invalid && DemandeForm.get('DAT_DEM')?.touched" class="text-danger">
+          La date de demande est requise.
+        </div>
+      </div>
+    
+      <div class="form-group col-md-3">
+        <label for="num_carte_desoin">Numéro de carte de soin</label>
+        <input type="text" id="num_carte_desoin" formControlName="num_carte_desoin" class="form-control">
+        <div *ngIf="DemandeForm.get('num_carte_desoin')?.invalid && DemandeForm.get('num_carte_desoin')?.touched" class="text-danger">
+          Le numéro de carte de soin est requis.
+        </div>
+        <div *ngIf="patientNotFound" class="text-danger">
+          Patient non trouvé.
+        </div>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="ID_UNIQUE">ID Unique</label>
+        <div class="input-group">
+            <span class="input-group-text custom-prefix">PT-</span>
+            <input type="text" id="ID_UNIQUE" formControlName="ID_UNIQUE" class="form-control" readonly>
+        </div>
+    </div>
+    
+    
+      <div class="form-group col-md-3">
+        <label for="NOM_PATIENT">Nom du patient</label>
+        <input type="text" id="NOM_PATIENT" formControlName="NOM_PATIENT" class="form-control" readonly>
+      </div>
+    
+    </div>
+
+
+
+    <div class="mt-4">
+      <table class="table table-bordered">
+        <thead class="table-light">
+          <tr class="text-center">
+            <th>CDE_PROD</th>
+            <th>LIB_PROD</th>
+            <th>PRI_VENT_PROD</th>
+            <th>QTE_DEM</th>
+            <th>QTE_DIST</th>
+            <th>TOTAL</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="lignes" >
+          <tr *ngFor="let ligne of lignes.controls; let i = index" [formGroupName]="i" >
+            
+                <!-- Code produit -->
+                <td>
+                  <input 
+                    type="text" 
+                    id="cde_prod_{{i}}" 
+                    formControlName="cde_prod" 
+                    class="form-control text-center" 
+                    (blur)="onCodeChange(i, $event)" 
+                    placeholder="Entrez le code produit">
+                  <div *ngIf="lignes.at(i).get('error')?.value" class="text-danger">
+                    {{ lignes.at(i).get('error')?.value }}
+                  </div>
+                </td>
+            
+                <!-- Libellé produit -->
+                <td>
+                  <input 
+                    type="text" 
+                    id="LIB_PROD_{{i}}" 
+                    formControlName="LIB_PROD" 
+                    class="form-control text-center"
+                    (blur)="onLibelleChange(i, $event)"
+                    placeholder="Entrez le libellé du produit">
+                  <div *ngIf="lignes.at(i).get('LIB_PROD')?.invalid && lignes.at(i).get('LIB_PROD')?.touched" class="text-danger">
+                    LIB_PROD est requis.
+                  </div>
+                </td>
+            
+                <!-- Prix de vente produit -->
+                <td>
+                  <input 
+                    type="number" 
+                    id="PRI_VENT_PROD_{{i}}" 
+                    formControlName="PRI_VENT_PROD" 
+                    class="form-control text-center"
+                    (input)="validateQuantities(i)"
+                  >
+                  <div *ngIf="lignes.at(i).get('PRI_VENT_PROD')?.errors?.['qteDistInvalid'] && lignes.at(i).get('PRI_VENT_PROD')?.touched" class="text-danger">
+                    Quantité distribuée doit être inférieure ou égale à la quantité demandée.
+                  </div>
+                </td>
+            
+                <!-- Quantité demandée -->
+                <td>
+                  <input 
+                    type="number" 
+                    id="qte_dem_{{i}}" 
+                    formControlName="qte_dem" 
+                    class="form-control text-center" 
+                  >
+                  <div *ngIf="lignes.at(i).get('qte_dem')?.invalid && lignes.at(i).get('qte_dem')?.touched" class="text-danger">
+                    QTE_DEM est requise.
+                  </div>
+                </td>
+            
+                <!-- Quantité distribuée -->
+                <td>
+                  <input 
+                    type="number" 
+                    id="qte_dist_{{i}}" 
+                    formControlName="qte_dist" 
+                    class="form-control text-center"
+                    (input)="validateQuantities(i)"
+                  >
+                  <div *ngIf="lignes.at(i).get('qte_dist')?.errors?.['qteDistInvalid'] && lignes.at(i).get('qte_dist')?.touched" class="text-danger">
+                    Quantité distribuée doit être inférieure ou égale à la quantité demandée.
+                  </div>
+                </td>
+            
+                <!-- Total -->
+                <td>
+                  <input 
+                    type="number" 
+                    id="totale_{{i}}" 
+                    formControlName="totale" 
+                    class="form-control text-center"
+                    (input)="validateQuantities(i)"
+                  >
+                  <div *ngIf="lignes.at(i).get('totale')?.errors?.['qteDistInvalid'] && lignes.at(i).get('totale')?.touched" class="text-danger">
+                    Quantité distribuée doit être inférieure ou égale à la quantité demandée.
+                  </div>
+                </td> <td class="text-center"><button type="button" class="btn btn-danger btn-sm" (click)="removeLigne(i)">Supprimer</button></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5" class="text-end"><strong>Total:</strong></td>
+            <td class="text-end"><input type="number" [value]="totalPrixTotal()" step="0.01" disabled class="form-control text-end"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="text-end mt-3">
+      <button type="button" class="btn btn-primary me-2" (click)="addLigne()">Ajouter Ligne</button>
+      <button type="submit" class="btn btn-success">Soumettre</button>
+    </div>
+  </form>
+</div>
+<br><br><br><br><br>
+<br>
+<br>
+</div>

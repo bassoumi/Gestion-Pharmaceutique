@@ -1,0 +1,87 @@
+
+
+<br>
+
+
+<div class="container mt-5 ">
+
+
+
+  <form [formGroup]="formgroup" (ngSubmit)="onSubmit()" class="p-4 rounded bg-white shadow-lg form-container ">
+    
+    <h2 class="title">Ajouter un patient</h2>
+
+    <div class="row mb-1">
+      <div class="col-sm-6">
+        <label for="ID_UNIQUE" class="form-label">ID_UNIQUE <span class="text-danger">*</span></label>
+        <input type="text" id="ID_UNIQUE" formControlName="ID_UNIQUE" class="form-control" placeholder="ID Unique du patient" readonly>
+      </div>
+      <div class="col-sm-6">
+        <label for="num_carte_desoin" class="form-label">
+          Numéro de carte de soin <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+          <span class="input-group-text">E-1</span>
+          <input type="text" id="num_carte_desoin" formControlName="num_carte_desoin" class="form-control" placeholder="Numéro de carte de soin du patient" >
+        </div>
+      </div>
+      
+      
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
+    </div>
+    
+    <div class="row mb-1">
+      <div class="col-sm-6">
+        <label for="NOM" class="form-label">Nom <span class="text-danger">*</span></label>
+        <input type="text" id="NOM" formControlName="NOM" class="form-control" placeholder="Nom du patient" required>
+      </div>
+      <div class="col-sm-6">
+        <label for="PRENOM" class="form-label">Prénom <span class="text-danger">*</span></label>
+        <input type="text" id="PRENOM" formControlName="PRENOM" class="form-control" placeholder="Prénom du patient" required>
+      </div>
+    </div>
+    
+    <div class="row mb-1">
+      <div class="col-sm-6">
+        <label for="DATE_NAISSANCE" class="form-label">Date de naissance</label>
+        <input type="date" id="DATE_NAISSANCE" formControlName="DATE_NAISSANCE" class="form-control" />
+      </div>
+      <div class="col-sm-6">
+        <label for="ADRESSE" class="form-label">Adresse</label>
+        <input type="text" id="ADRESSE" formControlName="ADRESSE" class="form-control" placeholder="Adresse du patient" />
+      </div>
+    </div>
+    
+    <div class="row mb-1">
+      <div class="col-sm-6">
+        <label for="TELEPHONE" class="form-label">Téléphone</label>
+        <input type="tel" id="TELEPHONE" formControlName="TELEPHONE" class="form-control" placeholder="Numéro de téléphone" />
+      </div>
+      <div class="col-sm-6">
+        <label for="EMAIL" class="form-label">Email</label>
+        <input type="email" id="EMAIL" formControlName="EMAIL" class="form-control" placeholder="Adresse email" />
+      </div>
+    </div>
+    
+    <div class="row mb-1">
+      <div class="col-sm-6">
+        <label class="form-label">Sexe</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="SEXE_M" formControlName="SEXE" value="M">
+          <label class="form-check-label" for="SEXE_M">Homme</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="SEXE_F" formControlName="SEXE" value="F">
+          <label class="form-check-label" for="SEXE_F">Femme</label>
+        </div>
+      </div>
+      <div class="col-sm-5"></div> <!-- Espace pour garder la cohérence avec les autres lignes -->
+      <button type="submit" class="btn btn-primary float-end mt-3 ">Ajouter</button>
+
+    </div>
+    
+  </form>
+</div>

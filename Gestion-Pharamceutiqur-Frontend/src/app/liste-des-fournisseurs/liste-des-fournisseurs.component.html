@@ -1,0 +1,132 @@
+
+<div style="background-color: #f0f0f0; ">
+  <br><br><br><br>
+  <div class="flex justify-end items-center mt-5" style="margin-right: 60px;">
+    <form class="d-flex" (submit)="onSearch($event)" role="search">
+      <div class="relative">
+        <input id="searchInput" name="phone" [(ngModel)]="searchQueryName" 
+               class="border-2 border-gray-300 bg-white h-10 pl-10 pr-5 rounded-lg text-sm focus:outline-none" 
+               type="search" placeholder="entrer le CDE_FOUR">
+        <i class="fa fa-search absolute left-3 top-3 text-gray-500"></i>
+      </div>
+    </form>
+  </div>
+  
+
+
+<ng-container *ngIf="searchQueryName && searchResults.length > 0 ">
+ 
+<!-- fournisseur-search.component.html -->
+
+<div class="container mt-2 "style="margin-left: 70px;">
+  <h2 class="text-center mb-4">Liste des Fournisseurs</h2>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr class="text-center">
+        <th class="table-cell-border">Référence</th>
+        <th class="table-cell-border">Nom</th>
+        <th class="table-cell-border">ADR_FOUR</th>
+        <th class="table-cell-border">TEL_BUR</th>
+        <th class="table-cell-border">TEL_PORT</th>
+        <th class="table-cell-border">FAX_FOUR</th>
+        <th class="table-cell-border">MAIL_FOUR</th>
+        <th class="table-cell-border">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fournisseur of searchResults" class="text-center">
+        <td>{{ fournisseur.CDE_FOUR }}</td>
+        <td>{{ fournisseur.NOM_FOUR }}</td>
+        <td>
+          <a [href]="getGoogleMapsUrl(fournisseur.ADR_FOUR)" target="_blank">
+            {{ fournisseur.ADR_FOUR }}
+          </a>
+        </td>
+        
+                <td>{{ fournisseur.TEL_BUR }}</td>
+        <td>{{ fournisseur.TEL_PORT }}</td>
+        <td>{{ fournisseur.FAX_FOUR }}</td>
+        <td>
+          <a [href]="'https://mail.google.com/mail/?view=cm&fs=1&to=' + fournisseur.MAIL_FOUR" target="_blank">{{ fournisseur.MAIL_FOUR }}</a>
+        </td>         <td>
+          <div class="btn-group" role="group">
+            <button class="btn btn-outline-success mr-3" (click)="modify(fournisseur.CDE_FOUR)">Modifier</button>
+            <button class="btn btn-outline-danger" (click)="deleteFournisseur(fournisseur.CDE_FOUR)">Supprimer</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-outline-primary mt-3" (click)="resetSearch()">Voir liste des Fournisseures</button>
+</div>
+
+</ng-container>
+
+
+
+<ng-container *ngIf="(!searchQueryName)">
+  <div class="container mt-2" style="margin-left: 70px;">
+    <h2 class="text-center mb-4 animated-title">Liste des Fournisseurs</h2>
+    <br>
+    <p style="font-size: 20px;"> <b>Total des Fournisseures :</b> {{ fournisseurs.length }}</p>
+    <br>
+
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr class="text-center">
+          <th class="table-cell-border">CDE_FOUR</th>
+          <th class="table-cell-border">NOM_FOUR</th>
+          <th class="table-cell-border">ADR_FOUR</th>
+          <th class="table-cell-border">TEL_BUR</th>
+          <th class="table-cell-border">TEL_PORT</th>
+          <th class="table-cell-border">FAX_FOUR</th>
+          <th class="table-cell-border">MAIL_FOUR</th>
+          <th class="table-cell-border">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fournisseur of fournisseurs; let i = index" class="text-center animated-row" [style.animationDelay]="i * 0.1 + 's'">
+          <td>{{ fournisseur.CDE_FOUR }}</td>
+          <td>{{ fournisseur.NOM_FOUR }}</td>
+          <td>
+            <a [href]="getGoogleMapsUrl(fournisseur.ADR_FOUR)" target="_blank">
+              {{ fournisseur.ADR_FOUR }}
+            </a>
+          </td>
+          <td>{{ fournisseur.TEL_BUR }}</td>
+          <td>{{ fournisseur.TEL_PORT }}</td>
+          <td>{{ fournisseur.FAX_FOUR }}</td>
+          <td>
+            <a [href]="'https://mail.google.com/mail/?view=cm&fs=1&to=' + fournisseur.MAIL_FOUR" target="_blank">
+              {{ fournisseur.MAIL_FOUR }}
+            </a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <button class="btn btn-outline-success mr-3" (click)="modify(fournisseur.CDE_FOUR)">Modifier</button>
+              <button class="btn btn-outline-danger" (click)="deleteFournisseur(fournisseur.CDE_FOUR)">Supprimer</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+
+<style>
+  .animated-row {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+<br><br><br><br><br><br><br><br>
+<br>
+</div>

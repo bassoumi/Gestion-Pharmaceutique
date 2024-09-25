@@ -1,0 +1,46 @@
+
+body {
+    background-color: #502525; /* Couleur de fond générale */
+    background-image: linear-gradient(45deg, #961e1e 25%, transparent 25%),
+                      linear-gradient(-45deg, #571b1b 25%, transparent 25%),
+                      linear-gradient(45deg, transparent 75%, #5d1d1d 75%),
+                      linear-gradient(-45deg, transparent 75%, #531414 75%);
+    background-size: 50px 50px; /* Taille des carrés de la grille */
+    background-position: 0 0, 0 25px, 25px -25px, -25px 0;
+    background-repeat: repeat; /* Assure que la grille se répète */
+  }
+
+.chart-container {
+    display: flex;
+    align-items: center; /* Aligne verticalement les graphiques et la ligne */
+    justify-content: space-between; /* Espacement entre les graphiques */
+    margin: 0 50px; /* Marges horizontales */
+  }
+  
+  .chart-left,
+  .chart-right {
+    flex: 1;
+    max-width: 45%; /* Limite la largeur des graphiques pour permettre l'espace pour la ligne verticale */
+    margin: 0 10px; /* Ajoute un petit espace entre les graphiques et la ligne */
+  }
+  
+  .separator {
+    width: 2px; /* Largeur de la ligne verticale */
+    background-color: #9fa79f; /* Couleur de la ligne verticale */
+    height: 300px; /* Hauteur de la ligne verticale */
+    border: none; /* Supprime la bordure par défaut du hr */
+  }
+  .horizontal-separator {
+    height: 1px; /* Hauteur de la ligne horizontale */
+    background-color: #000; /* Couleur de la ligne horizontale */
+    margin: 10px 100px; /* Espacement vertical autour de la ligne horizontale */
+  }
+
+h2 {
+    text-align: center; /* Centre le texte du titre */
+    color: #007bff; /* Change la couleur du texte, ajustez selon vos besoins */
+    font-size: 1.5em; /* Taille du texte, ajustez selon vos besoins */
+    margin-bottom: 20px; /* Espace sous le titre, ajustez selon vos besoins */
+  }
+
+

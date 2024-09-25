@@ -1,0 +1,192 @@
+/* Custom background color for the form row */
+.bg-light {
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+  }
+  
+  /* Add some padding and margin for better spacing */
+  .form-row {
+    margin-bottom: 15px;
+  }
+  .bg-grey {
+    background-color: #f8f9fa; /* Utilisation d'une teinte de gris */
+  }
+  
+  
+  
+  /* Animation for adding a line */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation for removing a line */
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+  
+  /* Apply the fadeIn animation */
+  .form-group.row.align-items-center {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Optional: apply fadeOut animation when removing */
+  .form-group.row.align-items-center.fade-out {
+    animation: fadeOut 0.5s ease-in-out;
+  }
+  /* Chevron on the edge */
+
+/* Sidebar */
+/* Sidebar */
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  max-height: 100vh;
+  background-color: #f8f9fa;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(100%);
+  box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+  z-index: 999;
+  overflow-y: auto; /* Barre de défilement verticale */
+  overflow-x: hidden; /* Masque la barre de défilement horizontale */
+}
+
+
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+/* Sidebar content */
+.sidebar h2 {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Ajoutez ceci dans votre fichier CSS */
+/* Ajoutez ceci dans votre fichier CSS */
+.search-input {
+  flex: 1; /* Permet à l'input de prendre toute la largeur disponible */
+}
+
+.search-select {
+  width: 100px; /* Ajuste la largeur du select à votre convenance */
+  margin-left: 0.5rem; /* Ajuste l'espacement entre l'input et le select */
+}
+
+/* Table style */
+.table {
+  width: calc(100% - 40px);
+}
+
+.custom-thead-bg {
+  background-color: #343a40; /* Remplacez par la couleur souhaitée */
+  color: white; /* Pour que le texte soit bien visible */
+}
+
+.table th, .table td {
+  text-align: left;
+  padding: 8px;
+}
+.text-danger {
+  color: red;
+}
+.custom-date-input {
+  width: 70%; 
+}
+.table-footer {
+  text-align: right;
+}
+
+.table-footer input {
+  text-align: right;
+}
+
+.table-header {
+  background-color: #4CAF50; /* Green background */
+  color: rgb(242, 235, 235); /* White text color */
+  text-align: center; /* Center-align text */
+}
+.table-cell-border {
+  border-right: 1px solid #ccc; /* Couleur et style de la bordure */
+}
+
+.table-cell-border:last-child {
+  border-right: none; /* Pas de bordure pour la dernière cellule */
+}
+.action-column {
+  position: relative;
+  /* Assure que la cellule s'alignera correctement avec le reste du tableau */
+}
+
+.action-column .btn {
+  margin: 0; /* Ajustez la marge si nécessaire */
+}
+.chevron {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background-color: #4CAF50; /* Bleu pharmacie */
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 0 5px 5px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+  overflow-y: auto; /* Barre de défilement verticale */
+  overflow-x: hidden; 
+}
+.custom-prefix {
+  background-color: #f1f1f1;  /* Couleur de fond douce */
+ /* Coins arrondis sur la gauche */
+  font-weight: bold;  /* Texte en gras */
+  padding: 0.375rem 0.75rem;  /* Ajuste le padding pour aligner avec l'input */
+  border-right: none;  /* Supprime la bordure droite pour fusionner avec l'input */
+}
+
+.chevron:hover {
+  background-color: #4CAF50; /* Couleur de survol */
+}
+
+.chevron.open {
+  background-color: transparent; /* Fond transparent lorsque la sidebar est ouverte */
+  color: black; /* Texte en noir lorsque la sidebar est ouverte */
+  transform: translateY(-50%) translateX(-100%);
+}
+.chevron.open {
+  transform: translateY(-50%) translateX(-100%);
+}
+.animated-row {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

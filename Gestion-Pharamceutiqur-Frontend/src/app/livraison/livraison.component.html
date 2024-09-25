@@ -1,0 +1,298 @@
+<br><br>
+<div style="background-color: #f0f0f0; ">
+  <div class="chevron" (click)="toggleSidebar()" [ngClass]="{'open': isSidebarOpen}">
+    <span *ngIf="!isSidebarOpen">&#9664;</span> <!-- Chevron pointing left when sidebar is closed -->
+    <span *ngIf="isSidebarOpen">&#9654;</span>  <!-- Chevron pointing right when sidebar is open -->
+  </div>
+  
+  <!-- Sidebar -->
+  <div id="articleSidebar" [ngClass]="{'open': isSidebarOpen}" class="sidebar bg-light shadow-lg">
+    <h2 class="text-center mt-3">Liste des Médicaments</h2>
+    <form class="d-flex mb-3 p-3" (submit)="onSearch($event)" role="search">
+      <div class="input-group">
+        <input id="searchInput" name="searchQuery" [(ngModel)]="searchQuery" class="form-control" type="search" placeholder="Rechercher un médicament" style="flex: 2;">
+        <select [(ngModel)]="searchType" name="searchType" class="form-select" style="flex: 1; max-width: 150px;">
+          <option value="CDE_PROD">CDE_PROD</option>
+          <option value="LIB_PROD">LIB_PROD</option>
+        </select>
+      </div>
+      
+      
+    </form>
+  
+    <!-- Search results or full article list -->
+    <ng-container *ngIf="searchQuery && searchResults.length > 0">
+      <table class="table table-hover">
+        <thead>
+          <tr class="text-center">
+            <th scope="col">CDE_PROD</th>
+            <th scope="col">LIB_PROD</th>
+            <th scope="col">STOCK_PROD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let article of searchResults" class="text-center">
+            <td>{{ article.CDE_PROD }}</td>
+            <td>{{ truncateText(article.LIB_PROD) }}</td>
+            <td>{{ article.STOCK_PROD }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  
+    <ng-container *ngIf="!searchQuery">
+      <!-- Articles en rupture de stock -->
+      <div *ngIf="articlesInStockOut.length > 0" class="p-3">
+        <h3 class="text-center">Articles en Rupture de Stock</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">CDE_PROD</th>
+              <th scope="col">LIB_PROD</th>
+              <th scope="col">STOCK</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let article of articlesInStockOut" class="text-center text-danger">
+              <td>{{ article.CDE_PROD }}</td>
+              <td>{{ truncateText(article.LIB_PROD) }}</td>
+              <td [ngClass]="{'text-danger': article.STOCK_PROD === 0}">
+                {{ article.STOCK_PROD }}
+              </td>
+                        </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <!-- Autres articles -->
+      <div *ngIf="articlesInStock.length > 0" class="p-3">
+        <h3 class="text-center">Tous les Articles</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">CDE_PROD</th>
+              <th scope="col">LIB_PROD</th>
+              <th scope="col">STOCK_PROD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let article of articlesInStock" class="text-center">
+              <td>{{ article.CDE_PROD }}</td>
+              <td>{{ article.LIB_PROD }}</td>
+              <td [ngClass]="{'text-danger': article.STOCK_PROD === 0}">
+                {{ article.STOCK_PROD }}
+              </td>
+                        </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </div>
+<div class="container" style="width: 85%;">
+  <h1 class="form-title mt-5">Formulaire de Livraison</h1>
+  <form [formGroup]="livraisonForm" (ngSubmit)="onSubmit()" style="width: 100%;margin: auto;">
+    <div class="row">
+      <div class="form-group col-md-2 mb-2">
+        <label for="DAT_LIV" class="form-label">Date de Livraison</label>
+        <input type="date" id="DAT_LIV" formControlName="DAT_LIV" class="form-control custom-border">
+        <div *ngIf="livraisonForm.get('DAT_LIV')?.invalid && livraisonForm.get('DAT_LIV')?.touched" class="text-danger small">
+          La date de livraison est requise.
+        </div>
+      </div>
+    
+      <div class="form-group col-md-2 mb-2">
+        <label for="NUM_COM" class="form-label">Numéro de Commande</label>
+        <select id="NUM_COM" formControlName="NUM_COM" (change)="onNumComChange($event)" class="form-select custom-border">
+          <option value="">Sélectionnez une commande</option>
+          <option *ngFor="let commande of commandes" [value]="commande.NUM_COM">
+            {{ commande.NUM_COM }} | {{ commande.CDE_FOUR }} | {{ commande.DATE_COM | date: 'dd/MM/yyyy' }}
+          </option>
+        </select>
+        <div *ngIf="livraisonForm.get('NUM_COM')?.invalid && livraisonForm.get('NUM_COM')?.touched" class="text-danger small">
+          Le numéro de commande est requis.
+        </div>
+      </div>
+    
+      <div class="form-group col-md-2 mb-2">
+        <label for="NOM_FOUR" class="form-label">Nom du Fournisseur</label>
+        <input id="NOM_FOUR" type="text" [value]="getNomFournisseur(filter_CDE_FOUR)" formControlName="NOM_FOUR" class="form-control custom-border" readonly>
+        <div *ngIf="livraisonForm.get('NOM_FOUR')?.invalid && livraisonForm.get('NOM_FOUR')?.touched" class="text-danger small">
+          Le nom du fournisseur est requis.
+        </div>
+      </div>
+    
+      <div class="form-group col-md-2 mb-2">
+        <label for="ARR_LIV" class="form-label">Arrivée de Livraison</label>
+        <input type="date" id="ARR_LIV" formControlName="ARR_LIV" class="form-control custom-border">
+        <div *ngIf="livraisonForm.get('ARR_LIV')?.invalid && livraisonForm.get('ARR_LIV')?.touched" class="text-danger small">
+          L'ARR_LIV est requis.
+        </div>
+      </div>
+    
+      <div class="form-group col-md-2 mb-2">
+        <label for="ETAT_LIV" class="form-label">État de Livraison</label>
+        <select id="ETAT_LIV" formControlName="ETAT_LIV" class="form-select custom-border">
+          <option value="" disabled selected>Choisir un état</option>
+          <option value="En attente">En attente</option>
+          <option value="En cours de traitement">En cours de traitement</option>
+          <option value="Expédié">Expédié</option>
+          <option value="En transit">En transit</option>
+          <option value="En cours de livraison">En cours de livraison</option>
+          <option value="Livré">Livré</option>
+          <option value="Retardé">Retardé</option>
+          <option value="Retourné">Retourné</option>
+        </select>
+        <div *ngIf="livraisonForm.get('ETAT_LIV')?.invalid && livraisonForm.get('ETAT_LIV')?.touched" class="text-danger small">
+          L'état de livraison est requis.
+        </div>
+      </div>
+    
+      <div class="form-group col-md-2 mb-2">
+        <label for="NUM_LIV" class="form-label">NUM_LIV</label>
+        <input [value]="dernierNumLivraison" type="text" id="NUM_LIV" formControlName="NUM_LIV" class="form-control custom-border">
+        <div *ngIf="livraisonForm.get('NUM_LIV')?.invalid && livraisonForm.get('NUM_LIV')?.touched" class="text-danger small">
+          L'NUM_LIV est requis.
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="d-flex justify-content-center" style="margin-left: 30px;">
+      <table class="table mt-3">
+        <thead>
+          <tr class="text-center">
+            <th class="table-cell-border">CDE_PROD</th>
+            <th class="table-cell-border">LIB_PROD</th>
+            <th class="table-cell-border">ARRIVAGE_LIV</th>
+            <th class="table-cell-border">COND_PROD</th>
+            <th class="table-cell-border">NUM_LOT</th>
+            <th class="table-cell-border">DATE_PER</th>
+            <th class="table-cell-border">QTE_STOCK</th>
+            <th class="table-cell-border">QTE_COM</th>
+            <th class="table-cell-border">QTE_LIV</th>
+            <th class="table-cell-border">PRIX_LIV</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="lignes" class="text-center">
+          <tr *ngFor="let ligne of lignes.controls; let i = index" [formGroupName]="i" class="align-middle ">
+            <td class="table-cell-border">
+              <select id="CDE_PROD_{{i}}" formControlName="CDE_PROD" class="form-control" (change)="onArticleSelect(i, $event)">
+                <option value="">Sélectionnez un article</option>
+                <option *ngFor="let cdeProd of filteredCdeProdList" [value]="cdeProd">{{ cdeProd }}</option>
+              </select>
+              <div *ngIf="lignes.at(i).get('error')?.value" class="text-danger">
+                {{ lignes.at(i).get('error')?.value }}
+              </div>
+            </td>
+            
+            <td class="table-cell-border">
+              <input 
+                type="text" 
+                id="LIB_PROD_{{i}}" 
+                formControlName="LIB_PROD" 
+                class="form-control text-center" readonly>
+              <div *ngIf="lignes.at(i).get('LIB_PROD')?.invalid && lignes.at(i).get('LIB_PROD')?.touched" class="text-danger">
+                QTE_STOCK est requise.
+              </div>
+            </td>
+    
+            <td class="table-cell-border">
+              <input type="number" 
+                     id="ARRIVAGE_LIV_{{i}}" 
+                     formControlName="ARRIVAGE_LIV" 
+                     class="form-control text-center" 
+                     min="1">
+              <div *ngIf="lignes.at(i).get('ARRIVAGE_LIV')?.invalid && 
+                          lignes.at(i).get('ARRIVAGE_LIV')?.touched" 
+                   class="text-danger">
+                La quantité est requise et doit être un nombre valide supérieur à 0.
+              </div>
+            </td>
+            
+            <td class="table-cell-border">
+              <input type="number" id="COND_PROD_{{i}}" formControlName="COND_PROD" class="form-control text-center" min="1" readonly>
+              <div *ngIf="lignes.at(i).get('COND_PROD')?.invalid && lignes.at(i).get('COND_PROD')?.touched" class="text-danger">
+                La quantité est requise et doit être un nombre valide.
+              </div>
+            </td>
+            <td class="table-cell-border">
+              <input type="number" id="NUM_LOT_{{i}}" formControlName="NUM_LOT" class="form-control text-center">
+              <div *ngIf="lignes.at(i).get('NUM_LOT')?.invalid && lignes.at(i).get('NUM_LOT')?.touched" class="text-danger">
+                Le numéro de lot est requis.
+              </div>
+            </td>
+            <td class="table-cell-border">
+              <input 
+                type="date" 
+                id="DATE_PER_{{i}}" 
+                formControlName="DATE_PER" 
+                class="form-control text-center" 
+                [attr.min]="todayDate">
+              <div *ngIf="lignes.at(i).get('DATE_PER')?.hasError('dateFuture') && lignes.at(i).get('DATE_PER')?.touched" class="text-danger">
+                La date de péremption doit être dans le futur.
+              </div>
+            </td>
+            
+            <td class="table-cell-border">
+              <input 
+                type="number" 
+                id="QTE_STOCK_{{i}}" 
+                formControlName="QTE_STOCK" 
+                class="form-control text-center" readonly>
+              <div *ngIf="lignes.at(i).get('QTE_STOCK')?.invalid && lignes.at(i).get('QTE_STOCK')?.touched" class="text-danger">
+                QTE_STOCK est requise.
+              </div>
+            </td>
+            <td class="table-cell-border">
+              <input type="number" id="QTE_COM_{{i}}" formControlName="QTE_COM" class="form-control text-center QTE_COM" min="1" readonly>
+              <div *ngIf="lignes.at(i).get('QTE_COM')?.invalid && lignes.at(i).get('QTE_COM')?.touched" class="text-danger">
+                La quantité est requise et doit être un nombre valide.
+              </div>
+            </td>
+            <td class="table-cell-border">
+              <input 
+                type="number" 
+                id="QTE_LIV_{{i}}" 
+                formControlName="QTE_LIV" 
+                class="form-control text-center qte-liv">
+              <div *ngIf="lignes.at(i).errors?.['qteLivInvalid']" class="text-danger">
+                {{ lignes.at(i).errors?.['qteLivInvalid'] }}
+              </div>
+            </td>
+            
+    
+            <td class="table-cell-border">
+              <input type="number" id="PRIX_LIV_{{i}}" formControlName="PRIX_LIV" class="form-control text-center" readonly>
+              <div *ngIf="lignes.at(i).get('PRIX_LIV')?.invalid && lignes.at(i).get('PRIX_LIV')?.touched" class="text-danger">
+                Le prix est requis et doit être un nombre valide.
+              </div>
+            </td>
+    
+            <td>
+              <button type="button" class="btn btn-danger btn-sm ml-2" (click)="removeLigne(i)">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="9" class="text-end"><strong>Total:</strong></td>
+            <td class="text-end">
+              <input type="number" [value]="totalPrixTotal()" step="0.01" disabled class="form-control text-end">
+            </td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="d-flex justify-content-end mt-3 mr-5">
+      <button type="button" class="btn btn-primary mr-2"  style="border-radius: 20px; " (click)="addLigne()">Ajouter Ligne</button>
+      <button type="submit" class="btn btn-success mr-5"  style="border-radius: 20px; background-color:#afa74c ;" >Confirmer</button>
+    </div>
+  </form>
+</div>
+<br>
+<br>
+<br><br><br><br><br><br><br><br>
+<br>
+</div>

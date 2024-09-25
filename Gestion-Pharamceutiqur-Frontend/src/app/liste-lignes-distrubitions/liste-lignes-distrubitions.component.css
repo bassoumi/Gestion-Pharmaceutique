@@ -1,0 +1,135 @@
+/* Styles pour le titre de la page */
+.page-title {
+  color: #007bff; /* Bleu pour le titre */
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+/* Styles pour la barre de recherche */
+.search-container {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.search-form {
+  margin-right: 100px;
+
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-input {
+  border-radius: 8px; /* Coins arrondis pour les champs de saisie */
+  border: 2px solid #ddd;
+  padding-left: 10px;
+  padding-right: 30px;
+  height: 40px;
+  width: 100%;
+  max-width: 230px;
+  font-size: 14px;
+}
+
+/* Styles pour les alertes */
+.alert {
+  border-radius: 8px; /* Coins arrondis pour les alertes */
+  padding: 15px;
+}
+
+/* Styles pour les tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  text-align: center;
+}
+
+.table th {
+  background-color: #007bff; /* Bleu pour l'en-tête des colonnes */
+  color: white;
+  font-weight: bold;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Styles pour les boutons */
+.btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+  border-radius: 8px; /* Coins arrondis pour les boutons */
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-outline-success {
+  border-color: #28a745;
+  color: #28a745;
+  border-radius: 8px; /* Coins arrondis pour les boutons */
+}
+
+.btn-outline-success:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+.table-small {
+  width: 95%; /* Réduit la largeur de la table à 90% du conteneur */
+  margin: 0 auto; /* Centre la table horizontalement */
+}
+
+/* Assure que les cellules sont toujours lisibles */
+.table-small th,
+.table-small td {
+  padding: 8px; /* Ajuste le padding pour correspondre à la taille réduite */
+}
+/* Styles pour les tables avec la classe table-bordered */
+.table-bordered {
+  border: 2px solid #c9d3dd; /* Couleur de la bordure principale */
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #c9d3dd; /* Couleur des bordures des cellules */
+}
+
+.table-bordered th {
+  background-color: #73777b; /* Couleur d'arrière-plan pour les en-têtes de colonnes */
+  color: white; /* Couleur du texte dans les en-têtes */
+}
+
+.table-bordered tbody tr:nth-child(even) {
+  background-color: #f8f9fa; /* Couleur de fond des lignes paires */
+}
+
+.table-bordered tbody tr:nth-child(odd) {
+  background-color: #e9ecef; /* Couleur de fond des lignes impaires */
+}
+
+.table-bordered tbody tr:hover {
+  background-color: #ced4da; /* Couleur de fond des lignes au survol */
+}
+.animated-row {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

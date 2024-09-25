@@ -1,0 +1,145 @@
+<div style="background-color: #f0f0f0; ">
+<br><br><br><br><br><br><br>
+<div class="container mt-2 " >
+<div  style="margin-right: 50px;" class="flex justify-end items-center  ">
+  <form class="d-flex" (submit)="onSearch($event)" role="search">
+    <div class="relative">
+      <input  id="searchInput" name="NUM_COM" [(ngModel)]="searchQuerynumber"
+        class="border-2 border-gray-300 bg-white h-10 pl-10 pr-5 rounded-lg text-sm focus:outline-none"
+        type="search" placeholder="entrer N°LIVRAISON">
+      <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+    </div>
+  </form>
+</div>
+</div>
+
+<ng-container *ngIf="searchQuerynumber && searchResults.length > 0">
+  <div class="container mt-2">
+    <div style="width: 80%; margin: auto; text-align: left;">
+      <h1 class="form-title">Resultas De Recherche : </h1>
+    </div>  
+    <table class="table table-striped table-bordered" style="width: 20%; margin-left: 30px;">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center commande-header ">N°LIVRAISON</th>
+          <th scope="col" class="text-center commande-header ">CDE_FOUR</th>
+          <th scope="col" class="text-center commande-header ">N°COMMANDE</th>
+          <th scope="col" class="text-center commande-header ">D°LIVRAISON</th>
+          <th scope="col" class="text-center commande-header ">ARRIVAGE</th>
+          <th scope="col" class="text-center commande-header ">DETAILS</th>
+          <th scope="col" class="text-center commande-header ">TOTALE</th>
+          <th scope="col" class="text-center commande-header ">ACTIONS</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let livraison of searchResults">
+          <td class="text-center">{{ livraison.NUM_LIV }}</td>
+          <td class="text-center">{{ livraison.CDE_FOUR}}</td>
+          <td class="text-center">{{ livraison.DAT_LIV | date: 'yyyy-MM-dd' }}</td>
+          <td class="text-center">{{ livraison.ARR_LIV | date: 'yyyy-MM-dd' }}</td>
+          <td class="text-center">{{ livraison.NUM_COM }}</td>
+
+
+          <td>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center details-header ">CDE_PROD</th>
+                  <th scope="col" class="text-center details-header ">QTE_LIV</th>
+                  <th scope="col" class="text-center details-header ">PRIX_LIV</th>
+                  <th scope="col" class="text-center details-header ">NUM_LOT</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ligne of livraison.lignes">
+                  <td class="text-center">{{ ligne.CDE_PROD }}</td>
+                  <td class="text-center">{{ ligne.QTE_LIV }}</td>
+                  <td class="text-center">{{ ligne.PRIX_LIV }}</td>
+                  <td class="text-center">{{ ligne.NUM_LOT }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td class="text-center"> 
+                       {{ getTotalPrix(livraison.lignes) | number:'1.2-2' }}
+
+
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <button class="btn btn-outline-success" (click)="print(livraison)">Imprimer</button>
+              <button (click)="deleteLivraison(+livraison.NUM_LIV)" class="btn btn-outline-danger">Supprimer</button>
+
+
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-outline-primary mt-3" (click)="resetSearch()">voir liste des livraisons</button>
+
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!searchQuerynumber">
+  <div class="container mt-2">
+    <h1 class="text-center form-title">Liste Des Livraisons Effectuées : </h1>
+    <p style="font-size: 20px; margin-left: 40px;" >   <b>Total des Livraisons :</b> {{ livraisons.length }}</p>
+
+    <br>
+
+  </div>
+  <table class="table table-striped table-bordered" style="width: 20%; margin-left: 100px;">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center commande-header">N°LIVRAISON</th>
+        <th scope="col" class="text-center commande-header">CDE_FOUR</th>
+        <th scope="col" class="text-center commande-header">N°COMMANDE</th>
+        <th scope="col" class="text-center commande-header">D°LIVRAISON</th>
+        <th scope="col" class="text-center commande-header">ARRIVAGE</th>
+        <th scope="col" class="text-center commande-header">DETAILS</th>
+        <th scope="col" class="text-center commande-header">TOTALE</th>
+        <th scope="col" class="text-center commande-header">ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let livraison of livraisons" class="animated-row">
+        <td class="text-center">{{ livraison.NUM_LIV }}</td>
+        <td class="text-center">{{ livraison.CDE_FOUR }}</td>
+        <td class="text-center">{{ livraison.NUM_COM }}</td>
+        <td class="text-center">{{ livraison.DAT_LIV | date: 'yyyy-MM-dd' }}</td>
+        <td class="text-center">{{ livraison.ARR_LIV | date: 'yyyy-MM-dd' }}</td>
+        <td>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col" class="text-center details-header">CDE_PROD</th>
+                <th scope="col" class="text-center details-header">QTE_LIV</th>
+                <th scope="col" class="text-center details-header">PRIX_LIV</th>
+                <th scope="col" class="text-center details-header">NUM_LOT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ligne of livraison.lignes" class="animated-row">
+                <td class="text-center">{{ ligne.CDE_PROD }}</td>
+                <td class="text-center">{{ ligne.QTE_LIV }}</td>
+                <td class="text-center">{{ ligne.PRIX_LIV }}</td>
+                <td class="text-center">{{ ligne.NUM_LOT }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td class="text-center">{{ getTotalPrix(livraison.lignes) | number:'1.2-2' }}</td>
+        <td>
+          <div class="btn-group" role="group">
+            <button class="btn btn-outline-success" (click)="print(livraison)">Imprimer</button>
+            <button (click)="deleteLivraison(+livraison.NUM_LIV)" class="btn btn-outline-danger">Supprimer</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+
+</div>

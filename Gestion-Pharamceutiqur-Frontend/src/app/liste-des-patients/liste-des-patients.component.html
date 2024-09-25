@@ -1,0 +1,118 @@
+<div style="background-color: #f0f0f0; ">
+<br><br><br>
+<div class="container mt-5">
+  <div class="d-flex justify-content-end align-items-center mr-5">
+    <form class="d-flex align-items-center ml-auto" (submit)="onSearch($event)" role="search">
+      <!-- Section de sélection (plus petite) -->
+    
+
+      <!-- Champ de saisie de recherche -->
+      <input id="searchInput" name="searchValue" [(ngModel)]="searchValue" 
+             class="form-control text-center border-2 border-gray-300 bg-white h-10 pl-5 pr-10 rounded-lg text-sm focus:outline-none" 
+             type="search" placeholder="🔍 Entrez la valeur">
+             <div class="position-relative">
+              <select [(ngModel)]="searchType" name="searchType" 
+                      class="form-control text-center border-2 border-gray-300 bg-white pl-2 pr-2 rounded-lg text-sm focus:outline-none mr-2" 
+                      style="width: 120px; appearance: none; padding-right: 20px;">
+                <option value="ID_UNIQUE">ID Unique</option>
+                <option value="num_carte_desoin">N°CARTE</option>
+              </select>
+              <!-- Flèche vers le bas -->
+              <span class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%); pointer-events: none;">
+                ▼
+              </span>
+            </div>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- Affichage du message d'erreur -->
+<ng-container *ngIf="errorMessage">
+  <div class="container mt-2">
+    <div class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+    <button class="btn btn-outline-primary mt-3" (click)="resetSearch()">Voir la liste complète</button>
+  </div>
+</ng-container>
+
+<!-- Résultats de recherche -->
+<ng-container *ngIf="searchValue && searchResults.length > 0">
+  <div class="container mt-2">
+    <h2 class="title">Liste des patients</h2>
+    <table class="patient-table" style="width: 90%;">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">ID Unique</th>
+          <th scope="col" class="text-center">Nom</th>
+          <th scope="col" class="text-center">Prénom</th>
+          <th scope="col" class="text-center">Numéro de carte de soin</th>
+          <th scope="col" class="text-center">Adresse</th>
+          <th scope="col" class="text-center">Date Creation</th>
+          <th scope="col" class="text-center">Téléphone</th>
+          <th scope="col" class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of searchResults">
+          <td class="text-center">{{ patient.ID_UNIQUE }}</td>
+          <td class="text-center">{{ patient.NOM }}</td>
+          <td class="text-center">{{ patient.PRENOM }}</td>
+          <td class="text-center">{{ patient.num_carte_desoin }}</td>
+          <td class="text-center">{{ patient.ADRESSE }}</td>
+          <td class="text-center">{{ patient.DATE_SUBMIT | date }}</td>
+          <td class="text-center">{{ patient.TELEPHONE }}</td>
+          <td class="text-center">
+            <div class="btn-group" role="group">
+              <button class="btn btn-update mr-3" (click)="updatePatient(patient.ID_UNIQUE)">Modifier</button>
+              <button class="btn btn-delete" (click)="deletePatient(patient.ID_UNIQUE)">Supprimer</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-outline-primary mt-3" (click)="resetSearch()">Voir la liste complète</button>
+  </div>
+</ng-container>
+<!-- Liste complète des patients -->
+<ng-container *ngIf="!searchValue && !errorMessage">
+  <div class="container mt-2 ">
+    <h2 class="title">Liste des patients</h2>4 
+       <p style="font-size: 20px; margin-left: 55px;" >   <b>Total des patients :</b> {{ patients.length }}</p>
+
+    <table class="patient-table  " style="width: 90%;">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">ID Unique</th>
+          <th scope="col" class="text-center">Numéro de carte de soin</th>
+          <th scope="col" class="text-center">Nom</th>
+          <th scope="col" class="text-center">Prénom</th>
+          <th scope="col" class="text-center">Adresse</th>
+          <th scope="col" class="text-center">Date Creation </th>
+          <th scope="col" class="text-center">Téléphone</th>
+          <th scope="col" class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr *ngFor="let patient of patients" class="animated-row">
+          <td class="text-center">{{ patient.ID_UNIQUE }}</td>
+          <td class="text-center">{{ patient.num_carte_desoin }}</td>
+          <td class="text-center">{{ patient.NOM }}</td>
+          <td class="text-center">{{ patient.PRENOM }}</td>
+          <td class="text-center">{{ patient.ADRESSE }}</td>
+          <td class="text-center">{{ patient.DATE_SUBMIT | date }}</td>
+          <td class="text-center">{{ patient.TELEPHONE }}</td>
+          <td class="text-center">
+            <div class="btn-group" role="group">
+              <button class="btn btn-update mr-3" (click)="updatePatient(patient.ID_UNIQUE)">Modifier</button>
+              <button class="btn btn-delete" (click)="deletePatient(patient.ID_UNIQUE)">Supprimer</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+</div>

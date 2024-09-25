@@ -1,0 +1,34 @@
+
+  .form-title {
+    margin-left: 29px;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center; /* Centre le texte à l'intérieur du titre */
+    color: #afa74c; /* Couleur de fond demandée */
+    padding: 10px; /* Espacement autour du texte */
+    border-radius: 5px; /* Coins arrondis pour un effet plus doux */
+    display: inline-block; /* Pour que la largeur de fond soit juste autour du texte */
+  }
+
+  .commande-header {
+    background-color: #afa74c; /* Light gray color for commande headers */
+    color: #e9ecf0; /* Dark color for text */
+  }
+  
+  /* Header styles for details lines table */
+  .details-header {
+    background-color: #5c6063; /* Slightly darker gray for details headers */
+    color: #e0e7ee; /* Darker color for text */
+  }
+  .animated-row {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease forwards;
+  }
+  
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

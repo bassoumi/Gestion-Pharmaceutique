@@ -1,0 +1,144 @@
+<div style="background-color: #f0f0f0;">
+  <br><br><br>
+  <br><br>
+
+  <!-- Spinner -->
+  <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center" style="height: 200px;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <div class="flex justify-end items-center mr-5" *ngIf="!isLoading">
+    <form class="d-flex mb-3 p-3" (submit)="onSearch($event)" role="search">
+      <div class="input-group">
+        <input id="searchInput" name="searchQuery" [(ngModel)]="searchQuery" class="form-control" type="search" placeholder="Rechercher un médicament" style="flex: 2;">
+        <select [(ngModel)]="searchType" name="searchType" class="form-select" style="flex: 1; max-width: 150px;">
+          <option value="CDE_PROD">CDE_PROD</option>
+          <option value="LIB_PROD">LIB_PROD</option>
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <!-- Search Results or Full List -->
+  <ng-container *ngIf="!isLoading">
+    <ng-container *ngIf="searchQuery">
+      <div class="container" style="margin-left: 90px;">
+        <h2 class="mb-3">Liste des Produits</h2>
+        <br><br>
+
+        <!-- Results Table -->
+        <table *ngIf="searchResults.length > 0" class="table table-striped table-bordered table-custom">
+          <thead>
+            <tr class="text-center">
+              <th class="table-cell-border">CDE_PROD</th>
+              <th class="table-cell-border">LIB_PROD</th>
+              <th class="table-cell-border">DATE</th>
+              <th class="table-cell-border">STOCK_PROD</th>
+              <th class="table-cell-border">PRI_ACHT_PROD</th>
+              <th class="table-cell-border">PRI_VENT_PROD</th>
+              <th class="table-cell-border">TYPE_PROD</th>
+              <th class="table-cell-border">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let article of searchResults" class="text-center">
+              <td>{{ article.CDE_PROD }}</td>
+              <td>{{ article.LIB_PROD }}</td>
+              <td>{{ article.DATE_PROD }}</td>
+              <td>
+                {{ article.STOCK_PROD }}
+                <div *ngIf="article.STOCK_PROD === 0" class="text-danger mt-1">
+                  Rupture de stock
+                </div>
+              </td>
+              <td>{{ article.PRI_ACHT_PROD }}</td>
+              <td>{{ article.PRI_VENT_PROD }}</td>
+              <td>{{ article.COND_PROD }}</td>
+              <td>
+                <div class="btn-group" role="group">
+                  <button class="btn btn-outline-success mr-3" (click)="modify(article.CDE_PROD)">Modifier</button>
+                  <button class="btn btn-outline-danger" (click)="deleteArticle(article.CDE_PROD)">Supprimer</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- No Results Message -->
+        <div *ngIf="searchResults.length === 0" class="alert alert-warning text-center mt-3">
+          Aucun article n'est disponible pour cette recherche.
+        </div>
+        <button class="btn btn-outline-primary mt-3 custom-button" (click)="resetSearch()">
+          Voir liste des articles
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!searchQuery">
+      <div class="container" style="margin-left: 90px;">
+        <h2>Liste des Produits</h2>
+        <br>
+        <p style="font-size: 20px;"> <b>Total des produits :</b> {{ articles.length }}</p>
+<br>
+        <div *ngIf="errorMessage" class="alert alert-danger text-center" role="alert" style="width: 100%; margin: 0 auto;">
+          {{ errorMessage }}
+        </div>
+
+        <table class="table table-striped table-bordered table-custom">
+          <thead>
+            <tr class="text-center">
+              <th class="table-cell-border">CDE_PROD</th>
+              <th class="table-cell-border">COND_PROD</th>
+              <th class="table-cell-border">LIB_PROD</th>
+              <th class="table-cell-border">DATE</th>
+              <th class="table-cell-border">STOCK_PROD</th>
+              <th class="table-cell-border">PRI_ACHT_PROD</th>
+              <th class="table-cell-border">PRI_VENT_PROD</th>
+              <th class="table-cell-border">TYPE_PROD</th>
+              <th class="table-cell-border">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let article of articles; let i = index" class="text-center animated-row" [style.animationDelay]="i * 0.1 + 's'">
+              <td>{{ article.CDE_PROD }}</td>
+              <td>{{ article.COND_PROD }}</td>
+              <td>{{ article.LIB_PROD }}</td>
+              <td>{{ article.DATE_PROD }}</td>
+              <td>
+                {{ article.STOCK_PROD }}
+                <div *ngIf="article.STOCK_PROD === 0" class="text-danger mt-1">
+                  Rupture de stock
+                </div>
+              </td>
+              <td>{{ article.PRI_ACHT_PROD }}</td>
+              <td>{{ article.PRI_VENT_PROD }}</td>
+              <td>
+                <span [ngClass]="{
+                  'status-label': true,
+                  'status-ok': article.TYPE_PROD === 'Medicament',
+                  'status-non': article.TYPE_PROD === 'Dispositif',
+                  'status-default': article.TYPE_PROD !== 'Medicament' && article.TYPE_PROD !== 'Dispositif'
+                }">
+                  {{ article.TYPE_PROD }}
+                </span>
+              </td>
+              <td>
+                <div class="btn-group" role="group">
+                  <button class="btn btn-outline-success mr-3" (click)="modify(article.CDE_PROD)">Modifier</button>
+                  <button class="btn btn-outline-danger" (click)="deleteArticle(article.CDE_PROD)">Supprimer</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <br><br><br><br><br>
+  <br><br><br><br><br>
+  <br>
+</div>

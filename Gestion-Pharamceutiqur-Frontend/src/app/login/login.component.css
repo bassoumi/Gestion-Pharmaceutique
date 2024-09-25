@@ -1,0 +1,103 @@
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f3f4f6; /* Arrière-plan gris clair */
+}
+
+section {
+  width: 32rem; /* Largeur minimale du formulaire */
+  max-width: 100%; /* Largeur maximale à 100% */
+  background-color: rgba(255, 255, 255, 0.3); /* Fond blanc semi-transparent */
+  backdrop-filter: blur(10px); /* Applique un flou à l'arrière-plan */
+  padding: 1.5rem; /* Espacement interne */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  border-radius: 0.5rem; /* Ajoute des coins arrondis pour un meilleur effet */
+  transition: all 0.3s ease-in-out; /* Transition fluide pour la section */
+  animation: fadeIn 0.6s ease-in-out; /* Animation de l'apparition */
+}
+
+input {
+  border: 2px solid rgba(255, 255, 255, 0.8); /* Bordure blanche solide avec légère transparence */
+  background-color: rgba(255, 255, 255, 0.3); /* Fond blanc semi-transparent */
+  backdrop-filter: blur(5px); /* Applique un flou à l'arrière-plan */
+  color: #1f2937; /* Texte en gris foncé */
+  padding: 1rem 1.5rem; /* Augmente l'espacement interne */
+  border-radius: 20px; /* Coins arrondis */
+  outline: none; /* Supprime la bordure par défaut lors du focus */
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Transition pour la bordure et l'arrière-plan */
+  font-size: 1rem; /* Augmente la taille du texte */
+  height: 3rem; /* Augmente la hauteur des champs */
+}
+
+input:focus {
+  border-color: rgba(255, 255, 255, 1); /* Bordure blanche pleine lors du focus */
+  background-color: rgba(255, 255, 255, 0.5); /* Change l'arrière-plan lors du focus pour un effet plus prononcé */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Ajoute une ombre lumineuse lors du focus */
+  animation: pulse 0.5s ease-out; /* Animation de pulsation lors du focus */
+  transform: scale(1.05); /* Zoom avant lors du focus */
+}
+
+button {
+  background-color: #343a40; /* Couleur de fond */
+  padding: 0.75rem 1.5rem; /* Espacement interne augmenté pour un bouton plus petit mais toujours confortable */
+  color: #ffffff; /* Texte blanc */
+  font-weight: bold; /* Texte en gras */
+  border: none; /* Retirer la bordure */
+  border-radius: 20px; /* Coins arrondis */
+  max-width: 180px; /* Limite la largeur maximale du bouton */
+  margin: 0 auto; /* Centre le bouton horizontalement */
+  display: block; /* Assure que le centrage fonctionne correctement */
+  height: 2.5rem; /* Augmente la hauteur des champs */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Transition pour la couleur de fond et l'échelle */
+  animation: popUp 0.5s ease-out; /* Animation d'apparition avec effet de pop-up */
+}
+
+button:hover {
+  background-color: #6c757d; /* Couleur de fond plus claire au survol */
+  transform: scale(1.05); /* Légère augmentation de la taille au survol */
+}
+
+button:focus {
+  outline: none; /* Retirer la bordure par défaut du navigateur */
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.5); /* Ombre au focus */
+}
+
+label {
+  font-size: 1rem; /* Augmente la taille du texte */
+  font-weight: 600; /* Rend le texte légèrement plus épais */
+  letter-spacing: 0.05em; /* Espacement entre les lettres pour un effet plus aéré */
+  color: #343a40; /* Couleur assortie au bouton */
+  text-transform: uppercase; /* Met le texte en majuscules pour un look moderne */
+  margin-bottom: 0.5rem; 
+  margin-left: 10px; /* Espace supplémentaire sous le label */
+  display: inline-block; /* Assure que le margin-bottom fonctionne correctement */
+  transition: color 0.3s ease; /* Transition pour la couleur du label */
+}
+
+label:hover {
+  color: #6c757d; /* Change la couleur du label au survol pour un effet interactif */
+}
+
+/* Keyframes pour les animations */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+
+@keyframes popUp {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}

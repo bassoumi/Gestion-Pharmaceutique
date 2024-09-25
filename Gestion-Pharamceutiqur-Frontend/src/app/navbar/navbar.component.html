@@ -1,0 +1,165 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<header class="header fixed-top" id="header">
+  <div class="header_toggle">
+    <i class='fas fa-bars ml-0 mt-2' id="header-toggle" (click)="toggleSidebar()" style="font-size: 30px; color: white; padding: 10px 0 0 0;"></i> <!-- Icône de menu -->
+  </div>
+  
+  
+  
+  <div class="container_nav">
+   
+    <div class="time-display">
+      {{ currentTime }}
+    </div>
+    <div class="btn-group">
+      <button type="button" aria-expanded="false">
+        <img src="../../assets/img/symbole_hopitale-removebg-preview.png" class="img-fluid" alt="" style="width: 45px;">
+      </button>
+    </div>
+  </div>
+  
+</header>
+
+<div class="l-navbar" id="nav-bar">
+  <nav class="nav d-flex flex-column">
+    <div class="mb-2"> 
+      <a 
+      routerLink="home" 
+      routerLinkActive="active-link" 
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Accueil"> <!-- Title added here -->
+      <i class="fas fa-home fa-lg mr-3"></i>
+      <span class="nav_name">Accueil</span> 
+  </a>
+  
+  <a 
+      routerLink="Ajouter-produit" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Ajouter Un Produit"> <!-- Title added here -->
+      <i class="fas fa-edit fa-lg mr-3"></i>
+      <span class="nav_name">Ajouter Un Produit</span> 
+  </a>
+  
+  <a 
+      routerLink="ListeDesArticle" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Liste Des Produits"> <!-- Title added here -->
+      <i class="fas fa-box-open fa-lg"></i>
+      <span class="nav_name">Liste Des Produits</span> 
+  </a>
+  
+  <a 
+      routerLink="Ajouter-Fournisseur" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Ajouter Un Fournisseur"> <!-- Title added here -->
+      <i class="fas fa-pencil-alt fa-lg"></i>
+      <span class="nav_name">Ajouter Un Fournisseur</span> 
+  </a>
+  
+  <a 
+      routerLink="ListeDesFournisseur" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Liste Des Fournisseurs"> <!-- Title added here -->
+      <i class="fas fa-warehouse fa-lg"></i>
+      <span class="nav_name">Liste Des Fournisseurs</span> 
+  </a>
+  
+  <a 
+      routerLink="ligne-de-commande" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Ajouter Une Commande"> <!-- Title added here -->
+      <i class="fas fa-shopping-cart fa-lg"></i>
+      <span class="nav_name ms-2">Ajouter Une Commande</span> 
+  </a>
+  
+  <a 
+      routerLink="liste-des-Commandes" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Liste des Commandes"> <!-- Title added here -->
+      <i class="fas fa-clipboard-list fa-lg"></i>
+      <span class="nav_name ms-2">Liste des Commandes</span> 
+  </a>
+  
+  <a 
+      routerLink="livraison" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Ajouter une Livraison"> <!-- Title added here -->
+      <i class="fas fa-truck fa-lg"></i>
+      <span class="nav_name ms-2">Ajouter une Livraison</span> 
+  </a>
+  
+  <a 
+      routerLink="liste-des-livraisons" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Liste des Livraisons"> <!-- Title added here -->
+      <i class="fas fa-box fa-lg"></i>
+      <span class="nav_name ms-2">Liste des Livraisons</span> 
+  </a>
+  
+  <a 
+      routerLink="patient" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Ajouter un Patient"> <!-- Title added here -->
+      <i class="fas fa-user-plus fa-lg"></i>
+      <span class="nav_name">Ajouter un Patient</span> 
+  </a>
+  
+  <a 
+      routerLink="liste-des-patients" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Liste Des Patients"> <!-- Title added here -->
+      <i class="fas fa-id-card fa-lg"></i>
+      <span class="nav_name">Liste Des Patients</span> 
+  </a>
+  
+  <a 
+      routerLink="ligne-de-demande" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Demande"> <!-- Title added here -->
+      <i class="fas fa-file-alt fa-lg"></i>
+      <span class="nav_name ms-2">Demande</span> 
+  </a>
+  
+  <a 
+      routerLink="liste-des-lignes-de-distrubtion" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Liste Des Distributions"> <!-- Title added here -->
+      <i class="fas fa-tag fa-lg"></i>
+      <span class="nav_name">Liste Des Distributions</span> 
+  </a>
+  
+  <a 
+      routerLink="Dashbored" 
+      routerLinkActive="active-link" 
+      class="nav_link d-flex align-items-center text-start w-100 text-decoration-none" 
+      title="Dashbored"> <!-- Title added here -->
+      <i class="fas fa-chart-line fa-lg"></i>
+      <span class="nav_name">Dashbored</span> 
+  </a>
+  
+  <a 
+      class="nav_link d-flex align-items-center text-start w-100 mt-2 text-decoration-none" 
+      (click)="logout()" 
+      title="SignOut"> <!-- Title added here -->
+      <i class="fas fa-sign-out-alt fa-lg"></i>
+      <span class="nav_name ms-2">SignOut</span> 
+  </a>
+  
+    </div>
+  </nav>
+</div>
+

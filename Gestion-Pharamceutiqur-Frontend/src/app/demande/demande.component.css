@@ -1,0 +1,165 @@
+/* Chevron on the edge */
+
+
+
+/* Chevron on the edge */
+.chevron {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background-color: #007bff; /* Bleu pharmacie */
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 0 5px 5px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+  overflow-y: auto; /* Barre de défilement verticale */
+  overflow-x: hidden; 
+}
+.custom-prefix {
+  background-color: #f1f1f1;  /* Couleur de fond douce */
+ /* Coins arrondis sur la gauche */
+  font-weight: bold;  /* Texte en gras */
+  padding: 0.375rem 0.75rem;  /* Ajuste le padding pour aligner avec l'input */
+  border-right: none;  /* Supprime la bordure droite pour fusionner avec l'input */
+}
+
+.chevron:hover {
+  background-color: #0056b3; /* Couleur de survol */
+}
+
+.chevron.open {
+  background-color: transparent; /* Fond transparent lorsque la sidebar est ouverte */
+  color: black; /* Texte en noir lorsque la sidebar est ouverte */
+  transform: translateY(-50%) translateX(-100%);
+}
+
+.sidebar {
+  width: 300px;
+  background-color: #f8f9fa; /* Couleur de fond légère */
+  border-right: 1px solid #ddd;
+  position: fixed;
+  top: 0;
+  right: 0;  
+  height: 100%;
+  transform: translateX(100%);
+  padding: 10px;
+  transition: transform 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+.chevron.open {
+  transform: translateY(-50%) translateX(-100%);
+}
+
+
+
+/* Sidebar */
+.sidebar {
+  width: 300px;
+  background-color: #f8f9fa; /* Couleur de fond légère */
+  border-right: 1px solid #ddd;
+  position: fixed;
+  top: 0;
+  right: 0;  height: 100%;
+  transform: translateX(100%);
+
+  padding: 10px;
+  transition: transform 0.3s ease;
+  transform: translateX(100%); 
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar h2 {
+  color: #007bff;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Formulaire de recherche */
+.search-input {
+  border-radius: 20px 0 0 20px;
+  border-right: none;
+}
+
+.search-select {
+  border-radius: 0 20px 20px 0;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #e9ecef;
+}
+
+/* Tablettes et téléphones */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1000;
+    transform: translateX(-100%);
+  }
+
+  .chevron {
+    right: 10px;
+  }
+}
+
+/* Formulaire principal */
+.container {
+  margin-top: 50px;
+}
+
+.container h1 {
+  color: #007bff;
+  margin-bottom: 30px;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.form-group input {
+  border-radius: 20px;
+}
+
+.form-group .text-danger {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.btn-primary, .btn-success {
+  border-radius: 20px;
+}
+
+.table {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+  background-color: #007bff;
+  color: white;
+}
+
+tfoot {
+  background-color: #e9ecef;
+}
+
+.text-danger {
+  color: red;
+}

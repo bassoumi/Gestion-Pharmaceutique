@@ -1,0 +1,52 @@
+/* Cache les éléments radio */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+  
+  /* Style pour les labels comme boutons */
+  .btn {
+    display: inline-block;
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+  }
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  h2 {
+    color: rgb(73, 101, 116); /* Couleur bleue pharmacie */
+    font-weight: bold;
+    font-size: 30px;
+    animation: fadeInUp 1s ease-out; /* Applique l'animation */
+  }
+  
+
+  .custom-button {
+    background-color: rgb(73, 101, 116);
+    border: none; /* Retire la bordure par défaut */
+    color: white; /* Texte blanc pour le bouton */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Animation douce pour la transformation et la couleur */
+  }
+  
+  .custom-button:hover {
+    transform: scale(1.1); /* Agrandit le bouton de 10% au survol */
+    background-color: rgb(60, 90, 105); /* Couleur légèrement plus sombre pour le survol */
+  }
+  

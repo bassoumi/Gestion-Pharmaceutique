@@ -1,0 +1,65 @@
+<br><br><br>
+<div class="container mt-5">
+  <h2>Mettre à jour un Article</h2>
+  <form [formGroup]="formgroup" (ngSubmit)="onSubmit()" class="p-4 rounded bg-white shadow-lg">
+    <div class="row mb-3">
+      <div class="col-sm-6">
+        <label for="refArticle" class="form-label">Réf_Article <span class="text-danger">*</span></label>
+        <input type="text" id="refArticle" name="refArticle" formControlName="CDE_PROD" [(ngModel)]="Article.CDE_PROD" class="form-control" placeholder="Référence de l'article" readonly>
+      </div>
+      <div class="col-sm-6">
+        <label for="LIB_PROD" class="form-label">Nom de l'Article</label>
+        <input type="text" id="LIB_PROD" formControlName="LIB_PROD" [(ngModel)]="Article.LIB_PROD" class="form-control">
+      </div>
+    </div>
+    
+    <div class="row mb-3">
+      <div class="col-sm-6">
+        <label for="STOCK_PROD" class="form-label">Quantité</label>
+        <input type="number" id="STOCK_PROD" formControlName="STOCK_PROD" [(ngModel)]="Article.STOCK_PROD" class="form-control" readonly>
+      </div>
+      <div class="col-sm-6">
+        <label for="PRI_ACHT_PROD" class="form-label">PRI_ACHT_PROD</label>
+        <input type="number" id="PRI_ACHT_PROD" formControlName="PRI_ACHT_PROD" [(ngModel)]="Article.PRI_ACHT_PROD" class="form-control" (input)="calculateVente()">
+      </div>
+    </div>
+    
+    <div class="row mb-3">
+      <div class="col-sm-6">
+        <label for="PRI_VENT_PROD" class="form-label">PRI_VENT_PROD</label>
+        <input type="number" id="PRI_VENT_PROD" formControlName="PRI_VENT_PROD" [(ngModel)]="Article.PRI_VENT_PROD" class="form-control" readonly>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-sm-6">
+        <label for="COND_PROD" class="form-label">COND_PROD</label>
+        <input type="number" id="COND_PROD" formControlName="COND_PROD" [(ngModel)]="Article.COND_PROD" class="form-control" >
+      </div>
+    </div>
+    
+    
+    <div class="row mb-3">
+      <div class="col-sm-6">
+        <label for="TYPE_PROD" class="form-label">TYPE_PROD <span class="text-danger">*</span></label>
+        <div class="d-flex">
+          <input type="radio" id="condProdOk" formControlName="TYPE_PROD" class="form-check-input visually-hidden" value="Medicament">
+          <label for="condProdOk" class="btn btn-outline-success me-3" [ngClass]="{ active: formgroup.get('TYPE_PROD')?.value === 'Medicament' }" (click)="selectCondition('Medicament')">Medicament</label>
+          <input type="radio" id="condProdNon" formControlName="TYPE_PROD" class="form-check-input visually-hidden" value="Dispositif">
+          <label for="condProdNon" class="btn btn-outline-danger" [ngClass]="{ active: formgroup.get('TYPE_PROD')?.value === 'Dispositif' }" (click)="selectCondition('Dispositif')">Dispositif</label>
+        </div>
+        <div *ngIf="formgroup.get('TYPE_PROD')?.invalid && (formgroup.get('TYPE_PROD')?.dirty || formgroup.get('TYPE_PROD')?.touched)" class="text-danger">
+          Ce champ est obligatoire.
+        </div>
+      </div>
+    </div>
+    
+    <div class="row ">
+      <div class="col-sm-12 d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary me-2">Mettre à jour</button>
+      <button type="button" class="btn btn-secondary" (click)="Annuler()">Annuler</button>
+    </div>
+    </div>
+
+  </form>
+</div>

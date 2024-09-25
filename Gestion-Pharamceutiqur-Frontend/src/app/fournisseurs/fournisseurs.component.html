@@ -1,0 +1,93 @@
+<div style="background-color: #f0f0f0;">
+  <br><br>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card p-4 rounded bg-light shadow-lg">
+          <h2 class="text-center mb-0">Nouveau Fournisseur</h2>
+          <hr class="mb-3">
+          <form class="form-card" [formGroup]="formgroup">
+            <div class="row mb-3">
+              <div class="col-sm-6">
+                <label for="CDE_FOUR" class="form-label">Référence <span class="text-danger">*</span></label>
+                <input type="text" id="CDE_FOUR" name="CDE_FOUR" formControlName="CDE_FOUR" class="form-control rounded" placeholder="Référence du fournisseur" readonly>
+                <!-- Vérification du champ -->
+                <div *ngIf="formgroup.get('CDE_FOUR')?.invalid && (formgroup.get('CDE_FOUR')?.dirty || formgroup.get('CDE_FOUR')?.touched)" class="text-danger">
+                  Ce champ est obligatoire.
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label for="NOM_FOUR" class="form-label">Nom <span class="text-danger">*</span></label>
+                <input type="text" id="NOM_FOUR" name="NOM_FOUR" formControlName="NOM_FOUR" class="form-control rounded" placeholder="Nom du fournisseur">
+                <!-- Message d'erreur -->
+                <div *ngIf="nomFournisseurExistant" class="text-danger mt-1">
+                  Un fournisseur avec ce nom existe déjà.
+                </div>
+                <!-- Vérification du champ -->
+                <div *ngIf="formgroup.get('NOM_FOUR')?.invalid && (formgroup.get('NOM_FOUR')?.dirty || formgroup.get('NOM_FOUR')?.touched)" class="text-danger">
+                  Ce champ est obligatoire.
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-sm-6">
+                <label for="ADR_FOUR" class="form-label">Adresse <span class="text-danger">*</span></label>
+                <input type="text" id="ADR_FOUR" name="ADR_FOUR" formControlName="ADR_FOUR" class="form-control rounded" placeholder="Adresse du fournisseur">
+                <!-- Vérification du champ -->
+                <div *ngIf="formgroup.get('ADR_FOUR')?.invalid && (formgroup.get('ADR_FOUR')?.dirty || formgroup.get('ADR_FOUR')?.touched)" class="text-danger">
+                  Ce champ est obligatoire.
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label for="TEL_BUR" class="form-label">Téléphone Bureau <span class="text-danger">*</span></label>
+                <input type="text" id="TEL_BUR" name="TEL_BUR" formControlName="TEL_BUR" class="form-control rounded" placeholder="Téléphone bureau">
+                <!-- Vérification du champ -->
+                <div *ngIf="formgroup.get('TEL_BUR')?.invalid && (formgroup.get('TEL_BUR')?.dirty || formgroup.get('TEL_BUR')?.touched)" class="text-danger">
+                  Ce champ est obligatoire.
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-sm-6">
+                <label for="TEL_PORT" class="form-label">Téléphone Portable <span class="text-danger">*</span></label>
+                <input type="text" id="TEL_PORT" name="TEL_PORT" formControlName="TEL_PORT" class="form-control rounded" placeholder="Téléphone portable">
+                <!-- Vérification du champ -->
+                <div *ngIf="formgroup.get('TEL_PORT')?.invalid && (formgroup.get('TEL_PORT')?.dirty || formgroup.get('TEL_PORT')?.touched)" class="text-danger">
+                  Ce champ est obligatoire.
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label for="FAX_FOUR" class="form-label">Fax <span class="text-danger">*</span></label>
+                <input type="text" id="FAX_FOUR" name="FAX_FOUR" formControlName="FAX_FOUR" class="form-control rounded" placeholder="Fax">
+                <!-- Vérification du champ -->
+                <div *ngIf="formgroup.get('FAX_FOUR')?.invalid && (formgroup.get('FAX_FOUR')?.dirty || formgroup.get('FAX_FOUR')?.touched)" class="text-danger">
+                  Ce champ est obligatoire.
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-sm-12">
+                <label for="MAIL_FOUR" class="form-label">Email <span class="text-danger">*</span></label>
+                <input type="email" id="MAIL_FOUR" name="MAIL_FOUR" formControlName="MAIL_FOUR" class="form-control rounded" placeholder="Email">
+                <!-- Vérification du champ -->
+                <div *ngIf="formgroup.get('MAIL_FOUR')?.invalid && (formgroup.get('MAIL_FOUR')?.dirty || formgroup.get('MAIL_FOUR')?.touched)" class="text-danger">
+                  Ce champ est obligatoire.
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-1">
+              <div class="col-sm-12 d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" (click)="ajouterFournisseur()">Ajouter</button>
+              </div>
+            </div>
+          </form>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

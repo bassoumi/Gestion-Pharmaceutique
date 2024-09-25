@@ -1,0 +1,87 @@
+<div style="background-color: #f0f0f0;">
+  <br><br>
+
+  <div class="container mt-5">
+
+    <form [formGroup]="formgroup" (ngSubmit)="onSubmit()" class="p-4 rounded bg-white shadow-lg" style="width: 90%; margin-left: 85px;">
+      <div class="row mb-3">
+        <h2 class="text-center">Ajouter un produit</h2>
+        <hr class="mb-3">
+        <div class="col-sm-6">
+          <label for="refArticle" class="form-label">CDE_PROD <span class="text-danger">*</span></label>
+          <input type="text" id="refArticle" name="refArticle" formControlName="CDE_PROD" class="form-control" placeholder="Référence de l'article" readonly>
+          <div *ngIf="formgroup.get('CDE_PROD')?.invalid && (formgroup.get('CDE_PROD')?.dirty || formgroup.get('CDE_PROD')?.touched)" class="text-danger">
+            Ce champ est obligatoire.
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="LIB_PROD" class="form-label">LIB_PROD <span class="text-danger">*</span></label>
+          <input type="text" id="LIB_PROD" formControlName="LIB_PROD" class="form-control rounded" placeholder="Nom de l'article">
+          <div *ngIf="formgroup.get('LIB_PROD')?.invalid && (formgroup.get('LIB_PROD')?.dirty || formgroup.get('LIB_PROD')?.touched)" class="text-danger">
+            Ce champ est obligatoire.
+          </div>
+          <div *ngIf="nomArticleExistant" class="text-danger mt-1">
+            Un article avec ce nom existe déjà.
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="PRI_ACHT_PROD" class="form-label">PRI_ACHT_PROD <span class="text-danger">*</span></label>
+          <input type="number" id="PRI_ACHT_PROD" formControlName="PRI_ACHT_PROD" class="form-control" (input)="calculateVente()">
+          <div *ngIf="formgroup.get('PRI_ACHT_PROD')?.invalid && (formgroup.get('PRI_ACHT_PROD')?.dirty || formgroup.get('PRI_ACHT_PROD')?.touched)" class="text-danger">
+            Ce champ est obligatoire.
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="PRI_VENT_PROD" class="form-label">Prix de Vente <span class="text-danger">*</span></label>
+          <input type="number" id="PRI_VENT_PROD" formControlName="PRI_VENT_PROD" class="form-control" readonly>
+          <div *ngIf="formgroup.get('PRI_VENT_PROD')?.invalid && (formgroup.get('PRI_VENT_PROD')?.dirty || formgroup.get('PRI_VENT_PROD')?.touched)" class="text-danger">
+            Ce champ est obligatoire.
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="COND_PROD" class="form-label">COND_PROD <span class="text-danger">*</span></label>
+          <input type="number" id="COND_PROD" formControlName="COND_PROD" class="form-control" min="0" step="1">
+          <div *ngIf="formgroup.get('COND_PROD')?.invalid && (formgroup.get('COND_PROD')?.dirty || formgroup.get('COND_PROD')?.touched)" class="text-danger">
+            Ce champ est obligatoire.
+          </div>
+        </div>
+
+        <!-- TYPE_PROD on the same line as COND_PROD -->
+       <!-- TYPE_PROD on the same line as COND_PROD -->
+<div class="col-sm-6">
+  <label for="TYPE_PROD" class="form-label">TYPE_PROD <span class="text-danger">*</span></label>
+  <div class="d-flex">
+    <input type="radio" id="Medicament" formControlName="TYPE_PROD" class="form-check-input visually-hidden" value="Medicament" />
+    <label for="Medicament" class="btn btn-outline-success me-3" [ngClass]="{ active: formgroup.get('TYPE_PROD')?.value === 'Medicament' }" (click)="selectCondition('Medicament')">
+      Medicament
+    </label>
+
+    <input type="radio" id="Dispositif" formControlName="TYPE_PROD" class="form-check-input visually-hidden" value="Dispositif" />
+    <label for="Dispositif" class="btn btn-outline-primary" [ngClass]="{ active: formgroup.get('TYPE_PROD')?.value === 'Dispositif' }" (click)="selectCondition('Dispositif')">
+      Dispositif
+    </label>
+  </div>
+  <div *ngIf="formgroup.get('TYPE_PROD')?.invalid && (formgroup.get('TYPE_PROD')?.dirty || formgroup.get('TYPE_PROD')?.touched)" class="text-danger">
+    Ce champ est obligatoire.
+  </div>
+</div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-12 text-end">
+          <button type="submit" class="btn custom-button mr-5 mt-3">Ajouter</button>
+        </div>
+        
+        
+      </div>
+    </form>
+    <br><br><br>
+  </div>
+</div>

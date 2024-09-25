@@ -1,0 +1,56 @@
+.print-container {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .font-weight-bold {
+    font-weight: bold;
+  }
+  
+  .font-italic {
+    font-style: italic;
+  }
+  
+  .table thead th {
+    background-color: #343a40;
+    color: white;
+  }
+  
+  .table td, .table th {
+    vertical-align: middle;
+  }
+  
+  .text-right {
+    text-align: right;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-4 {
+    margin-top: 1.5rem;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .print-button {
+    font-size: 1.1rem;
+  }
+  
+  @media print {
+    .print-button {
+        display: none;
+    }
+  
+    .print-container {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+    }
+  }
+  

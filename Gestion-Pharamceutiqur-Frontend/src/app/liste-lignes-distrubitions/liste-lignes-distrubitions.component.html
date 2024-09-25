@@ -1,0 +1,152 @@
+<div style="background-color: #f0f0f0; ">
+
+<br><br><br><br><br><br>
+<div class="search-container">
+  <form class="search-form mar" (submit)="onSearch($event)" role="search">
+    <input 
+      id="searchInput" 
+      name="searchValue" 
+      [(ngModel)]="searchValue" 
+      class="search-input" 
+      type="search" 
+      placeholder="N_DEMANDE / ID_UNIQUE"
+    />
+    <div class="position-relative">
+      <select [(ngModel)]="searchType" name="searchType" 
+              class="form-control text-center border-2 border-gray-300 bg-white pl-2 pr-2 rounded-lg text-sm focus:outline-none mr-2" 
+              style="width: 120px; appearance: none; padding-right: 20px;">
+        <option value="N_DEMANDE">N_DEMANDE</option>
+        <option value="ID_UNIQUE">ID Unique</option>
+      </select>
+      <span class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%); pointer-events: none;">
+        ▼
+      </span>
+    </div>
+  </form>
+</div>
+<br><div class="container ">
+  <div class="header-container">
+    <h1 class="page-title" style="margin-left: 60px;"> Liste Des Distributions</h1>
+  </div>
+  <!-- Barre de recherche -->
+ 
+  
+  
+  <!-- Affichage du message d'erreur avec bouton de retour -->
+  <div *ngIf="errorMessage" class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+    <span>{{ errorMessage }}</span>
+    <button class="btn btn-outline-primary mt-3" (click)="resetSearch()">Retour</button>
+  </div>
+
+  <!-- Table pour toutes les distributions -->
+  <div *ngIf="!searchValue.trim() && demandes.length > 0">
+    <p style="font-size: 20px; margin-left: 40px;" >   <b>Total des Distributions :</b> {{ demandes.length }}</p>
+
+    <table class="table table-striped table-small">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">N_DEMANDE</th>
+          <th scope="col" class="text-center">Date</th>
+          <th scope="col" class="text-center">ID_Patient </th>
+          <th scope="col" class="text-center">Lignes de distribution</th>
+          <th scope="col" class="text-center"> prix Totale</th>
+          <th scope="col" class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let demande of demandes" class="animated-row" >
+          <td class="text-center">{{ demande.N_DEMANDE }}</td>
+          <td class="text-center">{{ demande.DATE_DEMANDE | date: 'yyyy-MM-dd' }}</td>
+          <td class="text-center">{{ demande.ID_UNIQUE
+          }}</td>
+          <td>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">CDE_PROD</th>
+                  <th scope="col" class="text-center">Numéro de lot</th>
+                  <th scope="col" class="text-center">Date de péremption</th>
+                  <th scope="col" class="text-center">Quantité</th>
+                  <th scope="col" class="text-center">Prix</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ligne of getLignesDistributionForDemande(demande.N_DEMANDE); let i = index">
+                  <td class="text-center">{{ getCodeProd(getLignesDistributionForDemande(demande.N_DEMANDE), i) }}</td>
+                  <td class="text-center">{{ ligne.nlot }}</td>
+                  <td class="text-center">{{ ligne.date_peremption | date: 'yyyy-MM-dd' }}</td>
+                  <td class="text-center">{{ ligne.qte_lot }}</td>
+                  <td class="text-center">{{ ligne.prix_dist | number:'1.2-2' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td class="text-center">
+            {{ getFormattedSommePrix(demande.N_DEMANDE) }}
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <button class="btn btn-outline-success" (click)="print(demande)">Imprimer</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Table pour les résultats de la recherche -->
+  <div *ngIf="searchValue.trim() && filteredLignesDistribution.length > 0">
+    <table class="table table-striped table-small">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">N_DEMANDE</th>
+          <th scope="col" class="text-center">Date </th>
+          <th scope="col" class="text-center">ID_Patient</th>
+          <th scope="col" class="text-center">Lignes de distribution</th>
+          <th scope="col" class="text-center"> prix Totale </th>
+          <th scope="col" class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let demande of filteredLignesDistribution">
+          <td class="text-center">{{ demande.N_DEMANDE }}</td>
+          <td class="text-center">{{ demande.DATE_DEMANDE | date: 'yyyy-MM-dd' }}</td>
+          <td class="text-center">{{ demande.ID_UNIQUE
+          }}</td>
+          <td>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">CDE_PROD</th>
+                  <th scope="col" class="text-center">Numéro de lot</th>
+                  <th scope="col" class="text-center">Date de péremption</th>
+                  <th scope="col" class="text-center">Quantité</th>
+                  <th scope="col" class="text-center">Prix</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ligne of demande.lignes">
+                  <td class="text-center">{{ ligne.code_prod ? ligne.code_prod : 'même code produit' }}</td>
+                  <td class="text-center">{{ ligne.nlot }}</td>
+                  <td class="text-center">{{ ligne.date_peremption | date: 'yyyy-MM-dd' }}</td>
+                  <td class="text-center">{{ ligne.qte_lot }}</td>
+                  <td class="text-center">{{ ligne.prix_dist | number:'1.2-2' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td class="text-center">
+            {{ getFormattedSommePrix(demande.N_DEMANDE) }}
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <button class="btn btn-outline-success" (click)="print(demande)">Imprimer</button>
+            </div>
+          </td>
+        </tr>
+        <button class="btn btn-outline-primary mt-3" (click)="resetSearch()">Retour vers la liste des distributions</button>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>

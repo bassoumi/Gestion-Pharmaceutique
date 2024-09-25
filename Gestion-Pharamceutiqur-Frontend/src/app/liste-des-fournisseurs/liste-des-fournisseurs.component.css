@@ -1,0 +1,12 @@
+h2{
+    color:  rgb(125, 168, 227); /* Couleur bleue pharmacie */
+font-weight: bold;
+font-size: 30px;
+  }  
+  .table-cell-border:last-child {
+    border-right: none; /* Supprime la bordure pour la dernière cellule */
+  }.table th {
+    background-color:  rgb(125, 168, 227); /* Couleur bleue pharmacie */
+    color: #ffffff; /* Texte blanc */
+    font-weight: bold;
+  }

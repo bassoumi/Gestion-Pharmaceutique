@@ -1,0 +1,236 @@
+
+<div style="background-color: #f0f0f0; ">
+  <div class="chevron" (click)="toggleSidebar()" [ngClass]="{'open': isSidebarOpen}">
+    <span *ngIf="!isSidebarOpen">&#9664;</span> <!-- Chevron pointing left when sidebar is closed -->
+    <span *ngIf="isSidebarOpen">&#9654;</span>  <!-- Chevron pointing right when sidebar is open -->
+  </div>
+
+<div id="articleSidebar" [ngClass]="{'open': isSidebarOpen}" class="sidebar">
+  <br><br><br>
+
+  <h2 class="text-center">Liste des Médicaments</h2>
+  <form class="d-flex mb-3" (submit)="onSearch($event)" role="search">
+    <div class="d-flex w-100 align-items-center">
+      <input id="searchInput" name="searchQuery" [(ngModel)]="searchQuery" class="form-control search-input ml-1" type="search" placeholder="Entrer votre recherche">
+      <select [(ngModel)]="searchType" name="searchType" class="form-select search-select" aria-label="Type de recherche">
+        <option value="CDE_PROD">CDE_PROD</option>
+        <option value="LIB_PROD">LIB_PROD</option>
+      </select>
+    </div>
+  </form>
+  
+  
+  <ng-container *ngIf="searchQuery">
+    <table class="table table-hover" *ngIf="searchResults.length > 0; else noResults">
+      <thead>
+        <tr class="text-center">
+          <th scope="col" class="text-center">CDE_PROD</th>
+          <th scope="col" class="text-center">LIB_PROD</th>
+          <th scope="col" class="text-center">STOCK_PROD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let article of searchResults" class="text-center">
+          <td>{{ article.CDE_PROD }}</td>
+          <td>{{ truncateText(article.LIB_PROD) }}</td>
+          <td>{{ article.STOCK_PROD }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Template to display when no results are found -->
+    <ng-template #noResults>
+      <div class="alert alert-warning text-center" role="alert">
+        Produit introuvable.
+      </div>
+    </ng-template>
+  </ng-container>
+  
+
+  <ng-container *ngIf="!searchQuery">
+    <!-- Articles en rupture de stock -->
+    <div *ngIf="articlesInStockOut.length > 0" class="p-3">
+      <h3 class="text-center"> <u>Articles en Rupture de Stock</u></h3>
+      <table class="table table-hover">
+        <thead class="custom-thead-bg">
+          <tr class="text-center">
+            <th class="table-header text-center"  scope="col">CDE_PROD</th>
+            <th class="table-header text-center"   scope="col">LIB_PROD</th>
+            <th  class="table-header text-center" scope="col">STOCK_PROD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let article of articlesInStockOut" class="text-center text-danger">
+            <td >{{ article.CDE_PROD }}</td>
+            <td >{{ truncateText(article.LIB_PROD) }}</td>
+            <td  [ngClass]="{'text-danger': article.STOCK_PROD === 0}">
+              {{ article.STOCK_PROD }}
+            </td>
+                      </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Autres articles -->
+    <div *ngIf="articlesInStock.length > 0" class="p-3">
+      <h3 class="text-center">Tous les Articles</h3>
+      <table class="table table-hover">
+       
+          <thead class="custom-thead-bg" >
+            <tr class="text-center ">
+              <th class="table-header" scope="col">CDE_PROD</th>
+              <th class="table-header" scope="col">LIB_PROD</th>
+              <th class="table-header" scope="col">STOCK_PROD</th>
+            </tr>
+          </thead>
+       
+        <tbody>
+          <tr *ngFor="let article of articlesInStock" class="text-center">
+            <td>{{ article.CDE_PROD }}</td>
+            <td>{{ article.LIB_PROD }}</td>
+            <td [ngClass]="{'text-danger': article.STOCK_PROD === 0}">
+              {{ article.STOCK_PROD }}
+            </td>
+                      </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+  
+</div>
+
+
+<h1 style="display: inline-block; text-align: center; width: 100%; color: #4CAF50; margin-top: 100px;">Formulaire de commande</h1>
+
+<form [formGroup]="commandeForm" (ngSubmit)="onSubmit()" style="width: 86%; margin: 0 auto;">
+  <div class="d-flex flex-row align-items-center bg-white p-3 rounded" style="border-radius: 20px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+    
+    <div class="d-flex flex-column align-items-center col-md-2 mr-3 ml-3 rounded p-2" style="background-color: white;">
+      <label for="dernierNumCommande" class="mt-2 mb-1">Numéro de commande</label>
+      <input id="dernierNumCommande" style="cursor: not-allowed; height: 30px; border-radius: 20px; border: 2px solid #4CAF50;" type="text" class="form-control text-center bg-white rounded" [value]="dernierNumCommande" readonly>
+    </div>
+
+    <div class="form-group mr-5 ml-5 float-right">
+      <label for="selectFournisseur">Choisir un fournisseur</label>
+      <select id="selectFournisseur" formControlName="CDE_FOUR" class="form-control" style="border-radius: 20px; border: 2px solid #4CAF50; background-color: white;">
+        <option value="">Choisissez un fournisseur</option>
+        <option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur.CDE_FOUR">
+          {{ fournisseur.NOM_FOUR }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group mr-5 ml-5 float-right">
+      <label for="OBSE">OBSE</label>
+      <input placeholder="Aucune observation" id="OBSE" formControlName="OBSE" type="text" class="form-control text-center" style="border-radius: 20px; border: 2px solid #4CAF50; background-color: white;">
+    </div>
+
+    <div class="form-group mr-5 ml-5">
+      <label for="ETAT">État</label>
+      <select id="ETAT" formControlName="ETAT" class="form-control" style="border-radius: 20px; border: 2px solid #4CAF50; background-color: white;">
+        <option value="en-attente">En attente</option>
+    <option value="en-cours-de-traitement">En cours de traitement</option>
+      </select>
+    </div>
+
+    <div class="d-flex flex-column align-items-center col-md-3 mr-4 ml-5">
+      <label for="DATE_COM">Date Commande</label>
+      <input id="DATE_COM" formControlName="DATE_COM" type="date" class="form-control text-center" style="border-radius: 20px; border: 2px solid #4CAF50; background-color: white;">
+      <div *ngIf="commandeForm.get('DATE_COM')?.invalid && (commandeForm.get('DATE_COM')?.touched || commandeForm.get('DATE_COM')?.dirty)" class="text-danger">
+        Input vide
+      </div>
+    </div>
+
+  </div>
+  <div class="d-flex justify-content-center">
+    <table class="table mt-4" style="width: 90%;">
+      <thead>
+        <tr class="text-center">
+          <th class="table-header table-cell-border">CDE_PROD</th>
+          <th class="table-header table-cell-border">LIB_PROD</th>
+          <th class="table-header table-cell-border">PRIX_UNITAIRE</th>
+          <th class="table-header table-cell-border">QTE_STOCK</th>
+          <th class="table-header table-cell-border">QTE_COM</th>
+          <th class="table-header table-cell-border">Prix Total</th>
+          <th class="table-header table-cell-border">Action</th>
+        </tr>
+      </thead>
+      
+      <tbody formArrayName="lignes" class="text-center">
+        <tr *ngFor="let ligne of lignes.controls; let i = index" [formGroupName]="i" class="align-middle animated-row">
+          <td class="table-cell-border">
+            <input 
+              formControlName="CDE_PROD" 
+              type="text" 
+              class="form-control text-center" 
+              (blur)="onCodeChange(i, $event)" 
+              placeholder="Entrez le code produit">
+            <div *ngIf="ligne.get('CDE_PROD')?.invalid && (ligne.get('CDE_PROD')?.touched || ligne.get('CDE_PROD')?.dirty)" class="text-danger">
+              Le code produit est requis.
+            </div>
+            <div *ngIf="ligne.get('error')?.value" class="text-danger">
+              {{ ligne.get('error')?.value }}
+            </div>
+          </td>
+          <td class="table-cell-border">
+            <input 
+              formControlName="LIB_PROD" 
+              type="text" 
+              class="form-control text-center" 
+              placeholder="Nom de l'article">
+            <div *ngIf="ligne.get('LIB_PROD')?.invalid && (ligne.get('LIB_PROD')?.touched || ligne.get('LIB_PROD')?.dirty)" class="text-danger">
+              Le nom de l'article est requis.
+            </div>
+          </td>
+          <td class="table-cell-border">
+            <input formControlName="PRIX_COM_UNITAIRE" type="text" class="form-control text-center" readonly>
+            <div *ngIf="ligne.get('PRIX_COM_UNITAIRE')?.invalid && (ligne.get('PRIX_COM_UNITAIRE')?.touched || ligne.get('PRIX_COM_UNITAIRE')?.dirty)" class="text-danger">
+              Input vide
+            </div>
+          </td>
+          <td class="table-cell-border">
+            <input formControlName="QTE_STOCK" type="number" class="form-control text-center" min="0">
+            <div *ngIf="ligne.get('QTE_STOCK')?.invalid && (ligne.get('QTE_STOCK')?.touched || ligne.get('QTE_STOCK')?.dirty)" class="text-danger">
+              Input vide
+            </div>
+          </td>
+          <td class="table-cell-border">
+            <input formControlName="QTE_COM" type="number" class="form-control text-center" (change)="updateTotalPrice(i)" min="1">
+            <div *ngIf="ligne.get('QTE_COM')?.invalid && (ligne.get('QTE_COM')?.touched || ligne.get('QTE_COM')?.dirty)" class="text-danger">
+              Input vide
+            </div>
+          </td>
+          <td class="table-cell-border">
+            <input formControlName="TOT_COM" type="text" class="form-control text-center" readonly>
+          </td>
+          <td class="action-column">
+            <button type="button" (click)="removeLigne(i)" class="btn btn-danger btn-sm" style="border-radius: 10px;">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+      
+      
+      <tfoot>
+        <tr>
+          <td colspan="5" class="text-end"><strong>Total:</strong></td>
+          <td class="text-end">
+            <input type="number" [value]="totalPrixTotal()" step="0.01" disabled class="form-control text-end">
+          </td>
+          <td></td> <!-- Colonne vide pour aligner avec les autres lignes -->
+        </tr>
+      </tfoot>
+      
+    </table>
+  </div>
+  
+  
+  
+  <div class="d-flex justify-content-end mt-3 mr-5">
+    <button type="button" (click)="addLigne()" class="btn btn-primary mr-2" style="border-radius: 20px;">Ajouter une ligne</button>
+    <button type="submit" class="btn btn-success mr-5" style="border-radius: 20px;">Valider</button>
+    
+  </div>
+</form>
+<br><br><br>
+<br><br>
+</div>

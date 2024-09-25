@@ -1,0 +1,39 @@
+<br><br><br><br>
+<div class="container">
+    <div class="messages">
+
+        <br>
+        
+        <div class="grid grid-cols-1 gap-4">
+          
+<div *ngIf="demandes.length > 0; else noDemandes">
+
+  <button (click)="deleteAllDemandes()" class="btn btn-danger float-right">vider l'historique</button>
+
+  <h3>Statut de vos demandes de congé :</h3>
+  <br>
+  <ul>
+    <li *ngFor="let demande of demandes" class="text-gray-900 fs-6 mb-2">
+        <div class="border border-gray-800 p-4 rounded-md">
+            <button (click)="deleteDemande(demande.pk)" class="text-red-600 hover:text-red-800 text-2xl p-2">
+                &times;
+              </button>
+      Votre demande de congé envoyée de titre :
+    
+       <strong>{{ demande.fields.title }}
+    </strong> 
+      a été   <span [ngClass]="{'text-success': demande.fields.status === 'approuvé', 'text-danger': demande.fields.status === 'rejeté'}"> <strong>{{ demande.fields.status }}</strong></span> le {{ demande.fields.date_reponse | date: 'EEEE d MMMM yyyy, HH:mm' }}
+   
+    </div>
+       
+    </li>
+  </ul>
+</div>
+</div>
+  <ng-template #noDemandes>
+    <h3>Statut de vos demandes de congé :</h3>
+    <div class="border border-gray-200 p-4 rounded-md">
+        <p class="text-gray-800">Aucune demande de congé trouvée.</p>
+    </div>
+  </ng-template>
+
